@@ -253,7 +253,6 @@
         }
 
         function openOrderModal(serviceName, basePrice) {
-            // جلب السعر المحدث لو الأدمن غيره
             let currentPrice = basePrice;
             document.querySelectorAll('.price-val').forEach(el => {
                 if(el.parentElement.innerText.includes(serviceName)) {
@@ -284,40 +283,59 @@
             submitBtn.disabled = true;
 
             const timeNow = new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+            const orderId = 'ORD-' + Date.now();
 
+            // حفظ الطلب في المتجر
+            const orders = JSON.parse(localStorage.getItem('all_store_orders') || '[]');
+            const newOrder = {
+                id: orderId,
+                serviceName: serviceName,
+                price: price,
+                custName: custName,
+                custPhone: custPhone,
+                custTarget: custTarget,
+                status: 'قيد المراجعة ⏳',
+                statusCode: 'pending',
+                date: timeNow
+            };
+            orders.push(newOrder);
+            localStorage.setItem('all_store_orders', JSON.stringify(orders));
+
+            // جلب رابط موقعك الحالي على جيت هب ليكون زر التيليجرام جاهز
+            const storeUrl = window.location.href.split('?')[0];
+
+            // رسالة التيليجرام مضاف إليها أزرار تفاعلية (Inline Keyboard)
             const message = `🧙 طلب جديد في متجر صاصا!\n\n` +
                             `📦 الخدمة: ${serviceName}\n` +
                             `💰 السعر: ${price} ج.م\n` +
                             `👤 اسم العميل: ${custName}\n` +
-                            `📱 واتساب العميل: ${custPhone}\n` +
+                            `📱 واتساب: ${custPhone}\n` +
                             `🎯 المستهدف: ${custTarget}\n` +
                             `⏰ الوقت: ${timeNow}`;
+
+            const inlineKeyboard = {
+                inline_keyboard: [
+                    [
+                        { text: "أوافق ✅", url: storeUrl + "?action=approve&id=" + orderId },
+                        { text: "أرفض ❌", url: storeUrl + "?action=reject&id=" + orderId }
+                    ]
+                ]
+            };
 
             try {
                 await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: CHAT_ID, text: message })
+                    body: JSON.stringify({ 
+                        chat_id: CHAT_ID, 
+                        text: message,
+                        reply_markup: inlineKeyboard
+                    })
                 });
-
-                const orders = JSON.parse(localStorage.getItem('all_store_orders') || '[]');
-                const newOrder = {
-                    id: 'ORD-' + Date.now(),
-                    serviceName: serviceName,
-                    price: price,
-                    custName: custName,
-                    custPhone: custPhone,
-                    custTarget: custTarget,
-                    status: 'قيد المراجعة ⏳',
-                    statusCode: 'pending',
-                    date: timeNow
-                };
-                orders.push(newOrder);
-                localStorage.setItem('all_store_orders', JSON.stringify(orders));
 
                 renderUserOrders();
                 renderAdminOrders();
-                alert('تم إرسال طلبك بنجاح وتوجيهه للأدمن فوراً!');
+                alert('تم إرسال طلبك بنجاح وإرساله للتيليجرام مع أزرار القبول والرفض!');
                 closeModal();
             } catch (error) {
                 alert('حدث خطأ في الإرسال، تأكد من الاتصال وحاول مجدداً.');
@@ -326,6 +344,37 @@
                 submitBtn.disabled = false;
             }
         }
+
+        // فحص لو الأدمن ضغط على زر في التيليجرام (أوافق أو أرفض)
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const action = urlParams.get('action');
+            const targetId = urlParams.get('id');
+
+            if (action && targetId) {
+                let orders = JSON.parse(localStorage.getItem('all_store_orders') || '[]');
+                let found = false;
+                orders.forEach(ord => {
+                    if (ord.id === targetId) {
+                        if (action === 'approve') {
+                            ord.status = 'تم المقبول والتنفيذ ✅';
+                            ord.statusCode = 'approved';
+                            found = true;
+                        } else if (action === 'reject') {
+                            ord.status = 'مرفوض ❌ (تواصل مع الدعم)';
+                            ord.statusCode = 'rejected';
+                            found = true;
+                        }
+                    }
+                });
+
+                if (found) {
+                    localStorage.setItem('all_store_orders', JSON.stringify(orders));
+                    alert(action === 'approve' ? '✅ تم قبول الطلب بنجاح وتحديث حالته للعميل!' : '❌ تم رفض الطلب بنجاح.');
+                    window.location.href = window.location.pathname; // تنظيف الرابط
+                }
+            }
+        });
 
         function renderUserOrders() {
             const orders = JSON.parse(localStorage.getItem('all_store_orders') || '[]');
