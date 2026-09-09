@@ -21,11 +21,13 @@
         .service-item:last-child { border-bottom: none; }
         
         .badge-open { background: #2ecc71; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; }
+        .badge-closed { background: #e74c3c; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; }
         .badge-pending { background: #f39c12; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; }
         .badge-approved { background: #2ecc71; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; }
         .badge-rejected { background: #e74c3c; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; }
 
         .btn-order { background: #e50914; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
+        .btn-disabled { background: #ccc; color: #666; border: none; padding: 6px 12px; border-radius: 4px; cursor: not-allowed; font-size: 0.9rem; }
         .section-box { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 25px; border: 1px solid #ddd; }
         .section-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; color: #1e3c72; border-bottom: 2px solid #1e3c72; padding-bottom: 5px; }
         .order-track-card { background: #f9fbfd; border: 1px solid #d1e3f8; padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
@@ -71,14 +73,16 @@
         <!-- Categories -->
         <button class="category-btn" onclick="toggleCategory('vodaCategory')"><span>خدمات فودافون 💙✨</span> <span>▼</span></button>
         <div class="category-content" id="vodaCategory">
-            <div class="service-item"><div><strong>سحب بيانات فودافون</strong> - <span class="price-val" data-id="v1">50</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('سحب بيانات فودافون', 50)">طلب</button></div>
-            <div class="service-item"><div><strong>بيانات مميز فودافون</strong> - <span class="price-val" data-id="v2">90</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بيانات مميز فودافون', 90)">طلب</button></div>
-            <div class="service-item"><div><strong>بحث قومي فودافون</strong> - <span class="price-val" data-id="v3">60</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بحث قومي فودافون', 60)">طلب</button></div>
+            <div class="service-item"><div><strong>سحب بيانات فودافون</strong> - <span class="price-val" data-id="v1">60</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('سحب بيانات فودافون', 60)">طلب</button></div>
+            <div class="service-item"><div><strong>بيانات مميز فودافون</strong> - <span class="price-val" data-id="v2">110</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بيانات مميز فودافون', 110)">طلب</button></div>
+            <div class="service-item"><div><strong>بحث قومي فودافون</strong> - <span class="price-val" data-id="v3">80</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بحث قومي فودافون', 80)">طلب</button></div>
         </div>
 
         <button class="category-btn" onclick="toggleCategory('etiCategory')"><span>خدمات اتصالات 💙✨</span> <span>▼</span></button>
         <div class="category-content" id="etiCategory">
             <div class="service-item"><div><strong>سحب بيانات اتصالات</strong> - <span class="price-val" data-id="e1">50</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('سحب بيانات اتصالات', 50)">طلب</button></div>
+            <div class="service-item"><div><strong>بحث قومي اتصالات 🔍</strong> - <span class="price-val" data-id="e_search">0</span> ج.م <span class="badge-closed">مغلق ❌</span></div><button class="btn-disabled" disabled>مغلق</button></div>
+            <div class="service-item"><div><strong>بيانات مميز اتصالات 💎</strong> - <span class="price-val" data-id="e_vip">0</span> ج.م <span class="badge-closed">مغلق ❌</span></div><button class="btn-disabled" disabled>مغلق</button></div>
         </div>
 
         <button class="category-btn" onclick="toggleCategory('orangeCategory')"><span>خدمات اورنج 💙✨</span> <span>▼</span></button>
@@ -88,7 +92,9 @@
 
         <button class="category-btn" onclick="toggleCategory('weCategory')"><span>خدمات وي 💙✨</span> <span>▼</span></button>
         <div class="category-content" id="weCategory">
-            <div class="service-item"><div><strong>بطاقه من الرقم القومي</strong> - <span class="price-val" data-id="w1">40</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بطاقه من الرقم القومي', 40)">طلب</button></div>
+            <div class="service-item"><div><strong>بطاقه من الرقم 🪪</strong> - <span class="price-val" data-id="w1">60</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بطاقه من الرقم 🪪', 60)">طلب</button></div>
+            <div class="service-item"><div><strong>بحث ارقام وي 🧐</strong> - <span class="price-val" data-id="w_search">60</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بحث ارقام وي 🧐', 60)">طلب</button></div>
+            <div class="service-item"><div><strong>بطاقه من رقم ارضي ☎️</strong> - <span class="price-val" data-id="w_landline">60</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بطاقه من رقم ارضي ☎️', 60)">طلب</button></div>
         </div>
 
         <button class="category-btn" onclick="toggleCategory('tamweenCategory')"><span>خدمات تموين 💙✨</span> <span>▼</span></button>
@@ -98,7 +104,12 @@
 
         <button class="category-btn" onclick="toggleCategory('civilCategory')"><span>خدمات سجل مدني 💙✨</span> <span>▼</span></button>
         <div class="category-content" id="civilCategory">
-            <div class="service-item"><div><strong>شهادة ميلاد</strong> - <span class="price-val" data-id="c1">370</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شهادة ميلاد', 370)">طلب</button></div>
+            <div class="service-item"><div><strong>قيد عادي</strong> - <span class="price-val" data-id="c_normal">470</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('قيد عادي', 470)">طلب</button></div>
+            <div class="service-item"><div><strong>مفصل</strong> - <span class="price-val" data-id="c_detailed">670</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('مفصل', 670)">طلب</button></div>
+            <div class="service-item"><div><strong>اسكرين بطاقة</strong> - <span class="price-val" data-id="c_screen">720</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('اسكرين بطاقة', 720)">طلب</button></div>
+            <div class="service-item"><div><strong>شهادة وفاة</strong> - <span class="price-val" data-id="c_death">620</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شهادة وفاة', 620)">طلب</button></div>
+            <div class="service-item"><div><strong>شهادة ميلاد</strong> - <span class="price-val" data-id="c_birth">370</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شهادة ميلاد', 370)">طلب</button></div>
+            <div class="service-item"><div><strong>شهادة جواز / طلاق</strong> - <span class="price-val" data-id="c_marriage">370</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شهادة جواز / طلاق', 370)">طلب</button></div>
         </div>
 
         <div class="admin-trigger" onclick="accessAdminPanel()">⚙️ إعدادات لوحة تحكم الأدمن (قاعدة البيانات) 🔐</div>
@@ -108,14 +119,23 @@
             <hr style="margin: 10px 0;">
             <h4 style="color: #1e3c72; margin-bottom: 8px;">💰 تعديل الأسعار:</h4>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;">
-                <div><label>سحب فودافون:</label><input type="number" id="p_v1" value="50" style="width:100%; padding:5px;"></div>
-                <div><label>فودافون مميز:</label><input type="number" id="p_v2" value="90" style="width:100%; padding:5px;"></div>
-                <div><label>بحث قومي فودافون:</label><input type="number" id="p_v3" value="60" style="width:100%; padding:5px;"></div>
+                <div><label>سحب فودافون:</label><input type="number" id="p_v1" value="60" style="width:100%; padding:5px;"></div>
+                <div><label>فودافون مميز:</label><input type="number" id="p_v2" value="110" style="width:100%; padding:5px;"></div>
+                <div><label>بحث قومي فودافون:</label><input type="number" id="p_v3" value="80" style="width:100%; padding:5px;"></div>
                 <div><label>سحب اتصالات:</label><input type="number" id="p_e1" value="50" style="width:100%; padding:5px;"></div>
+                <div><label>بحث قومي اتصالات (مغلق):</label><input type="number" id="p_e_search" value="0" style="width:100%; padding:5px;"></div>
+                <div><label>بيانات مميز اتصالات (مغلق):</label><input type="number" id="p_e_vip" value="0" style="width:100%; padding:5px;"></div>
                 <div><label>سحب اورنج:</label><input type="number" id="p_o1" value="30" style="width:100%; padding:5px;"></div>
-                <div><label>بطاقة قومي وي:</label><input type="number" id="p_w1" value="40" style="width:100%; padding:5px;"></div>
+                <div><label>بطاقه من الرقم:</label><input type="number" id="p_w1" value="60" style="width:100%; padding:5px;"></div>
+                <div><label>بحث ارقام وي:</label><input type="number" id="p_w_search" value="60" style="width:100%; padding:5px;"></div>
+                <div><label>بطاقه من رقم ارضي:</label><input type="number" id="p_w_landline" value="60" style="width:100%; padding:5px;"></div>
                 <div><label>سحب تموين:</label><input type="number" id="p_t1" value="50" style="width:100%; padding:5px;"></div>
-                <div><label>شهادة ميلاد:</label><input type="number" id="p_c1" value="370" style="width:100%; padding:5px;"></div>
+                <div><label>قيد عادي:</label><input type="number" id="p_c_normal" value="470" style="width:100%; padding:5px;"></div>
+                <div><label>مفصل:</label><input type="number" id="p_c_detailed" value="670" style="width:100%; padding:5px;"></div>
+                <div><label>اسكرين بطاقة:</label><input type="number" id="p_c_screen" value="720" style="width:100%; padding:5px;"></div>
+                <div><label>شهادة وفاة:</label><input type="number" id="p_c_death" value="620" style="width:100%; padding:5px;"></div>
+                <div><label>شهادة ميلاد:</label><input type="number" id="p_c_birth" value="370" style="width:100%; padding:5px;"></div>
+                <div><label>شهادة جواز/طلاق:</label><input type="number" id="p_c_marriage" value="370" style="width:100%; padding:5px;"></div>
             </div>
             <button onclick="savePricesToFirebase()" class="btn-order" style="width:100%; margin-bottom:15px; background:#1e3c72;">حفظ وتحديث الأسعار سحابياً 💾</button>
 
@@ -201,7 +221,7 @@
                     const prices = docSnap.data();
                     document.querySelectorAll('.price-val').forEach(el => {
                         const id = el.getAttribute('data-id');
-                        if (prices[id]) {
+                        if (prices[id] !== undefined) {
                             el.innerText = prices[id];
                             const input = document.getElementById('p_' + id);
                             if(input) input.value = prices[id];
@@ -328,7 +348,7 @@
 
         window.savePricesToFirebase = async function() {
             const newPrices = {};
-            ['v1', 'v2', 'v3', 'e1', 'o1', 'w1', 't1', 'c1'].forEach(id => {
+            ['v1', 'v2', 'v3', 'e1', 'e_search', 'e_vip', 'o1', 'w1', 'w_search', 'w_landline', 't1', 'c_normal', 'c_detailed', 'c_screen', 'c_death', 'c_birth', 'c_marriage'].forEach(id => {
                 const input = document.getElementById('p_' + id);
                 if(input) newPrices[id] = input.value;
             });
