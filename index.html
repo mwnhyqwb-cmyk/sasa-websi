@@ -151,20 +151,22 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, doc, updateDoc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // ضع بيانات مشروعك هنا بدقة
+        // بيانات مشروعك الحقيقية (الخاصة بك)
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyBMJ70vJUEoZHt",
+            authDomain: "sasa-store-cb353.firebaseapp.com",
+            projectId: "sasa-store-cb353",
+            storageBucket: "sasa-store-cb353.appspot.com",
+            messagingSenderId: "1077636915068",
+            appId: "1:1077636915068:web:8",
+            measurementId: "G-88CQVBV7BE"
         };
 
         let db;
         try {
             const app = initializeApp(firebaseConfig);
             db = getFirestore(app);
+            console.log("Firebase Connected Successfully!");
         } catch (err) {
             console.error("Firebase Init Error:", err);
         }
