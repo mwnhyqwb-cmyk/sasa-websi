@@ -66,15 +66,15 @@
             </div>
             <div class="stat-card">
                 <div class="stat-number" id="onlineUsersCount">1</div>
-                <div class="stat-label">🟢 المتواجدون الآن</div>
+                <div class="stat-label">🟢 متصل الآن بالخادم</div>
             </div>
         </div>
 
         <!-- Section: User Track Orders -->
         <div class="section-box">
-            <div class="section-title">📌 متابعة حالة طلباتي</div>
+            <div class="section-title">📌 متابعة حالة طلباتي (متزامن لحظياً)</div>
             <div id="userOrdersList">
-                <p style="color: #777; text-align: center;">لا توجد طلبات سابقة لديك حالياً.</p>
+                <p style="color: #777; text-align: center;">جاري تحميل الطلبات من السحابة...</p>
             </div>
         </div>
 
@@ -153,13 +153,13 @@
         </div>
 
         <!-- Admin Control Trigger -->
-        <div class="admin-trigger" onclick="accessAdminPanel()">⚙️ إعدادات لوحة تحكم الأدمن 🔐</div>
+        <div class="admin-trigger" onclick="accessAdminPanel()">⚙️ إعدادات لوحة تحكم الأدمن (قاعدة البيانات) 🔐</div>
         
         <div class="admin-panel" id="adminPanel">
-            <h3>🔑 لوحة تحكم الأدمن</h3>
+            <h3>🔑 لوحة تحكم الأدمن السحابية</h3>
             <hr style="margin: 10px 0;">
             
-            <h4 style="color: #1e3c72; margin-bottom: 8px;">💰 تعديل الأسعار للخدمات:</h4>
+            <h4 style="color: #1e3c72; margin-bottom: 8px;">💰 تعديل الأسعار (تتحدث فوري لكل العملاء):</h4>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;">
                 <div><label>سحب فودافون:</label><input type="number" id="p_v1" value="50" style="width:100%; padding:5px;"></div>
                 <div><label>فودافون مميز:</label><input type="number" id="p_v2" value="90" style="width:100%; padding:5px;"></div>
@@ -170,11 +170,11 @@
                 <div><label>سحب تموين:</label><input type="number" id="p_t1" value="50" style="width:100%; padding:5px;"></div>
                 <div><label>شهادة ميلاد:</label><input type="number" id="p_c1" value="370" style="width:100%; padding:5px;"></div>
             </div>
-            <button onclick="savePrices()" class="btn-order" style="width:100%; margin-bottom:15px; background:#1e3c72;">حفظ وتطبيق الأسعار الجديدة لجميع المستخدمين 💾</button>
+            <button onclick="savePricesToFirebase()" class="btn-order" style="width:100%; margin-bottom:15px; background:#1e3c72;">حفظ وتحديث الأسعار سحابياً 💾</button>
 
-            <h4 style="color: #1e3c72; margin-bottom: 8px;">📋 إدارة طلبات العملاء:</h4>
+            <h4 style="color: #1e3c72; margin-bottom: 8px;">📋 إدارة طلبات العملاء (مزامنة لحظية):</h4>
             <div id="adminOrdersList">
-                <p style="color: #777;">لا توجد طلبات معلقة حالياً.</p>
+                <p style="color: #777;">جاري جلب الطلبات...</p>
             </div>
         </div>
     </div>
@@ -192,7 +192,7 @@
                 2. املأ بياناتك واضغط تأكيد.
             </div>
 
-            <form onsubmit="submitRealOrder(event)">
+            <form onsubmit="submitFirebaseOrder(event)">
                 <input type="text" id="custName" placeholder="اسمك بالكامل" required style="width: 100%; margin-bottom: 8px; padding: 8px;">
                 <input type="tel" id="custPhone" placeholder="رقم الواتساب الخاص بك" required style="width: 100%; margin-bottom: 8px; padding: 8px;">
                 <input type="text" id="custTarget" placeholder="الرقم المستهدف / الرقم القومي" required style="width: 100%; margin-bottom: 8px; padding: 8px;">
@@ -204,79 +204,124 @@
         </div>
     </div>
 
-    <script>
+    <!-- Firebase SDK & Store Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, doc, updateDoc, onSnapshot, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // ضع بيانات مشروعك هنا (Firebase Config)
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
         const BOT_TOKEN = "8701847388:AAHfbO-Mp0tZ87dn7NvqLHXekU_XRplyHec";
         const CHAT_ID = "7677969589";
 
-        function initApp() {
-            loadPrices();
-            renderUserOrders();
-            renderAdminOrders();
-            
-            // تحديث تلقائي لو حصل تغيير في التخزين أو لوحة الأدمن
-            window.addEventListener('storage', (e) => {
-                loadPrices();
-                renderUserOrders();
-                renderAdminOrders();
-            });
-
-            // تحديث دوري كل ثانيتين عشان حالة الطلب تتغير فوراً عند العميل بدون ما يحتاج يعمل ريفريش
-            setInterval(() => {
-                renderUserOrders();
-                renderAdminOrders();
-            }, 2000);
-        }
-
-        function loadPrices() {
-            const savedPrices = JSON.parse(localStorage.getItem('store_prices') || '{}');
-            document.querySelectorAll('.price-val').forEach(el => {
-                const id = el.getAttribute('data-id');
-                if (savedPrices[id]) {
-                    el.innerText = savedPrices[id];
-                    if(document.getElementById('p_' + id)) {
-                        document.getElementById('p_' + id).value = savedPrices[id];
+        // الاستماع للأسعار وتحديثها لحظياً من قاعدة البيانات
+        onSnapshot(doc(db, "settings", "prices"), (docSnap) => {
+            if (docSnap.exists()) {
+                const prices = docSnap.data();
+                document.querySelectorAll('.price-val').forEach(el => {
+                    const id = el.getAttribute('data-id');
+                    if (prices[id]) {
+                        el.innerText = prices[id];
+                        if(document.getElementById('p_' + id)) {
+                            document.getElementById('p_' + id).value = prices[id];
+                        }
                     }
-                }
-            });
-        }
+                });
+            }
+        });
 
-        function savePrices() {
+        // دالة حفظ الأسعار بواسطة الأدمن
+        window.savePricesToFirebase = async function() {
             const ids = ['v1', 'v2', 'v3', 'e1', 'o1', 'w1', 't1', 'c1'];
             const newPrices = {};
             ids.forEach(id => {
-                const val = document.getElementById('p_' + id).value;
-                newPrices[id] = val;
+                newPrices[id] = document.getElementById('p_' + id).value;
             });
-            localStorage.setItem('store_prices', JSON.stringify(newPrices));
-            loadPrices();
-            alert('تم تحديث وتطبيق الأسعار الجديدة على جميع الهواتف والمستخدمين بنجاح! ✅');
-        }
+            try {
+                await setDoc(doc(db, "settings", "prices"), newPrices);
+                alert('✅ تم حفظ وتحديث الأسعار سحابياً وتطبيقها فوراً على كل الهواتف!');
+            } catch (e) {
+                alert('حدث خطأ أثناء الحفظ: ' + e.message);
+            }
+        };
 
-        function toggleCategory(catId) {
-            const el = document.getElementById(catId);
-            el.style.display = el.style.display === 'block' ? 'none' : 'block';
-        }
-
-        function openOrderModal(serviceName, basePrice) {
-            let currentPrice = basePrice;
-            document.querySelectorAll('.price-val').forEach(el => {
-                if(el.parentElement.innerText.includes(serviceName)) {
-                    currentPrice = el.innerText;
-                }
+        // الاستماع للطلبات وتحديثها لحظياً (للعملاء والأدمن)
+        onSnapshot(collection(db, "orders"), (snapshot) => {
+            let orders = [];
+            snapshot.forEach((docSnap) => {
+                orders.push({ id: docSnap.id, ...docSnap.data() });
             });
 
-            document.getElementById('modalServiceName').innerText = serviceName;
-            document.getElementById('modalServicePrice').innerText = currentPrice;
-            document.getElementById('orderModal').style.display = 'flex';
-        }
+            // ترتيب الطلبات من الأحدث للأقدم
+            orders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
-        function closeModal() {
-            document.getElementById('orderModal').style.display = 'none';
-        }
+            document.getElementById('totalOrdersCount').innerText = orders.length;
 
-        async function submitRealOrder(e) {
+            // عرض طلبات العميل
+            const userContainer = document.getElementById('userOrdersList');
+            if (orders.length === 0) {
+                userContainer.innerHTML = '<p style="color: #777; text-align: center;">لا توجد طلبات سابقة لديك حالياً.</p>';
+            } else {
+                let html = '';
+                orders.forEach(ord => {
+                    let badgeClass = 'badge-pending';
+                    if (ord.statusCode === 'approved') badgeClass = 'badge-approved';
+                    if (ord.statusCode === 'rejected') badgeClass = 'badge-rejected';
+
+                    html += `
+                        <div class="order-track-card">
+                            <div>
+                                <strong>${ord.serviceName}</strong> (${ord.price} ج.م)<br>
+                                <small style="color: #666;">المستهدف: ${ord.custTarget} | ${ord.date || ''}</small>
+                            </div>
+                            <div>
+                                <span class="${badgeClass}">${ord.status}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                userContainer.innerHTML = html;
+            }
+
+            // عرض لوحة تحكم الأدمن للطلبات
+            const adminContainer = document.getElementById('adminOrdersList');
+            if (orders.length === 0) {
+                adminContainer.innerHTML = '<p style="color: #777;">لا توجد طلبات معلقة حالياً.</p>';
+            } else {
+                let adminHtml = '';
+                orders.forEach(ord => {
+                    adminHtml += `
+                        <div class="admin-order-card">
+                            <div><strong>رقم الطلب:</strong> ${ord.id}</div>
+                            <div><strong>الخدمة:</strong> ${ord.serviceName} (${ord.price} ج.م)</div>
+                            <div><strong>العميل:</strong> ${ord.custName} (${ord.custPhone})</div>
+                            <div><strong>الرقم المستهدف:</strong> ${ord.custTarget}</div>
+                            <div><strong>الحالة:</strong> ${ord.status}</div>
+                            <div style="margin-top: 10px; display: flex; gap: 10px;">
+                                <button class="btn-accept" onclick="updateOrderStatus('${ord.id}', 'approved')">موافقة وتنفيد ✅</button>
+                                <button class="btn-reject" onclick="updateOrderStatus('${ord.id}', 'rejected')">رفض الطلب ❌</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                adminContainer.innerHTML = adminHtml;
+            }
+        });
+
+        // إرسال الطلب الجديد إلى قاعدة بيانات فايربيس وتيليجرام
+        window.submitFirebaseOrder = async function(e) {
             e.preventDefault();
-            
             const serviceName = document.getElementById('modalServiceName').innerText;
             const price = document.getElementById('modalServicePrice').innerText;
             const custName = document.getElementById('custName').value;
@@ -284,181 +329,98 @@
             const custTarget = document.getElementById('custTarget').value;
             const submitBtn = document.getElementById('submitBtn');
 
-            submitBtn.innerText = "جاري إرسال الطلب...";
+            submitBtn.innerText = "جاري الإرسال للسحابة...";
             submitBtn.disabled = true;
 
             const timeNow = new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
-            const orderId = 'ORD-' + Date.now();
-
-            const orders = JSON.parse(localStorage.getItem('all_store_orders') || '[]');
-            const newOrder = {
-                id: orderId,
-                serviceName: serviceName,
-                price: price,
-                custName: custName,
-                custPhone: custPhone,
-                custTarget: custTarget,
-                status: 'قيد المراجعة ⏳',
-                statusCode: 'pending',
-                date: timeNow
-            };
-            orders.push(newOrder);
-            localStorage.setItem('all_store_orders', JSON.stringify(orders));
-
-            const storeUrl = window.location.href.split('?')[0];
-
-            const message = `🧙 <b>طلب جديد في متجر صاصا!</b>\n\n` +
-                            `📦 <b>الخدمة:</b> ${serviceName}\n` +
-                            `💰 <b>السعر:</b> ${price} ج.م\n` +
-                            `👤 <b>اسم العميل:</b> ${custName}\n` +
-                            `📱 <b>واتساب:</b> ${custPhone}\n` +
-                            `🎯 <b>المستهدف:</b> ${custTarget}\n` +
-                            `⏰ <b>الوقت:</b> ${timeNow}\n\n` +
-                            `👇 <b>اختر الإجراء للطلب:</b>\n` +
-                            `[ <a href="${storeUrl}?action=approve&id=${orderId}">موافقة ✅</a> ]   |   [ <a href="${storeUrl}?action=reject&id=${orderId}">رفض ❌</a> ]`;
 
             try {
+                // حفظ الطلب في Firestore
+                await addDoc(collection(db, "orders"), {
+                    serviceName: serviceName,
+                    price: price,
+                    custName: custName,
+                    custPhone: custPhone,
+                    custTarget: custTarget,
+                    status: 'قيد المراجعة ⏳',
+                    statusCode: 'pending',
+                    date: timeNow,
+                    createdAt: Date.now()
+                });
+
+                // إرسال تنبيه لبوت تيليجرام
+                const message = `🧙 <b>طلب جديد في متجر صاصا (سحابي)!</b>\n\n` +
+                                `📦 <b>الخدمة:</b> ${serviceName}\n` +
+                                `💰 <b>السعر:</b> ${price} ج.م\n` +
+                                `👤 <b>اسم العميل:</b> ${custName}\n` +
+                                `📱 <b>واتساب:</b> ${custPhone}\n` +
+                                `🎯 <b>المستهدف:</b> ${custTarget}\n` +
+                                `⏰ <b>الوقت:</b> ${timeNow}`;
+
                 await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        chat_id: CHAT_ID, 
-                        text: message,
-                        parse_mode: 'HTML'
-                    })
+                    body: JSON.stringify({ chat_id: CHAT_ID, text: message, parse_mode: 'HTML' })
                 });
 
-                renderUserOrders();
-                renderAdminOrders();
-                alert('تم إرسال طلبك بنجاح!');
+                alert('تم إرسال طلبك بنجاح وحفظه في النظام السحابي!');
                 closeModal();
-            } catch (error) {
-                alert('حدث خطأ في الإرسال، تأكد من الاتصال وحاول مجدداً.');
+                document.getElementById('custName').value = '';
+                document.getElementById('custPhone').value = '';
+                document.getElementById('custTarget').value = '';
+            } catch (err) {
+                alert('حدث خطأ أثناء الإرسال: ' + err.message);
             } finally {
                 submitBtn.innerText = "تأكيد الطلب وإرسال الإسكرين 🚀";
                 submitBtn.disabled = false;
             }
-        }
+        };
 
-        // معالجة الضغط على زر القبول أو الرفض القادم من التيليجرام وتحديث الذاكرة فوراً
-        window.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const action = urlParams.get('action');
-            const targetId = urlParams.get('id');
-
-            if (action && targetId) {
-                let orders = JSON.parse(localStorage.getItem('all_store_orders') || '[]');
-                let found = false;
-                orders.forEach(ord => {
-                    if (ord.id === targetId) {
-                        if (action === 'approve') {
-                            ord.status = 'تم المقبول والتنفيذ ✅';
-                            ord.statusCode = 'approved';
-                            found = true;
-                        } else if (action === 'reject') {
-                            ord.status = 'مرفوض ❌ (تواصل مع الدعم)';
-                            ord.statusCode = 'rejected';
-                            found = true;
-                        }
-                    }
-                });
-
-                if (found) {
-                    localStorage.setItem('all_store_orders', JSON.stringify(orders));
-                    alert(action === 'approve' ? '✅ تم قبول الطلب وتحديث حالته بنجاح!' : '❌ تم رفض الطلب بنجاح.');
-                    window.location.href = window.location.pathname; // تنظيف الرابط
+        // تحديث حالة الطلب من لوحة تحكم الأدمن
+        window.updateOrderStatus = async function(docId, newStatusCode) {
+            try {
+                const orderRef = doc(db, "orders", docId);
+                if (newStatusCode === 'approved') {
+                    await updateDoc(orderRef, { status: 'تم المقبول والتنفيذ ✅', statusCode: 'approved' });
+                } else if (newStatusCode === 'rejected') {
+                    await updateDoc(orderRef, { status: 'مرفوض ❌ (تواصل مع الدعم)', statusCode: 'rejected' });
                 }
+                alert('✅ تم تحديث حالة الطلب سحابياً بنجاح.');
+            } catch (err) {
+                alert('خطأ في التحديث: ' + err.message);
             }
-        });
+        };
 
-        function renderUserOrders() {
-            const orders = JSON.parse(localStorage.getItem('all_store_orders') || '[]');
-            const container = document.getElementById('userOrdersList');
-            document.getElementById('totalOrdersCount').innerText = orders.length;
+        window.toggleCategory = function(catId) {
+            const el = document.getElementById(catId);
+            el.style.display = el.style.display === 'block' ? 'none' : 'block';
+        };
 
-            if (orders.length === 0) {
-                container.innerHTML = '<p style="color: #777; text-align: center;">لا توجد طلبات سابقة لديك حالياً.</p>';
-                return;
-            }
-
-            let html = '';
-            orders.slice().reverse().forEach(ord => {
-                let badgeClass = 'badge-pending';
-                if (ord.statusCode === 'approved') badgeClass = 'badge-approved';
-                if (ord.statusCode === 'rejected') badgeClass = 'badge-rejected';
-
-                html += `
-                    <div class="order-track-card">
-                        <div>
-                            <strong>${ord.serviceName}</strong> (${ord.price} ج.م)<br>
-                            <small style="color: #666;">المستهدف: ${ord.custTarget} | ${ord.date}</small>
-                        </div>
-                        <div>
-                            <span class="${badgeClass}">${ord.status}</span>
-                        </div>
-                    </div>
-                `;
+        window.openOrderModal = function(serviceName, basePrice) {
+            let currentPrice = basePrice;
+            document.querySelectorAll('.price-val').forEach(el => {
+                if(el.parentElement.innerText.includes(serviceName)) {
+                    currentPrice = el.innerText;
+                }
             });
-            container.innerHTML = html;
-        }
+            document.getElementById('modalServiceName').innerText = serviceName;
+            document.getElementById('modalServicePrice').innerText = currentPrice;
+            document.getElementById('orderModal').style.display = 'flex';
+        };
 
-        function renderAdminOrders() {
-            const orders = JSON.parse(localStorage.getItem('all_store_orders') || '[]');
-            const container = document.getElementById('adminOrdersList');
+        window.closeModal = function() {
+            document.getElementById('orderModal').style.display = 'none';
+        };
 
-            if (orders.length === 0) {
-                container.innerHTML = '<p style="color: #777;">لا توجد طلبات معلقة حالياً.</p>';
-                return;
-            }
-
-            let html = '';
-            orders.forEach((ord, index) => {
-                html += `
-                    <div class="admin-order-card">
-                        <div><strong>رقم الطلب:</strong> ${ord.id}</div>
-                        <div><strong>الخدمة:</strong> ${ord.serviceName} (${ord.price} ج.م)</div>
-                        <div><strong>العميل:</strong> ${ord.custName} (${ord.custPhone})</div>
-                        <div><strong>الرقم المستهدف:</strong> ${ord.custTarget}</div>
-                        <div><strong>الحالة:</strong> ${ord.status}</div>
-                        <div style="margin-top: 10px; display: flex; gap: 10px;">
-                            <button class="btn-accept" onclick="updateOrderStatus(${index}, 'approved')">موافقة وتنفيد ✅</button>
-                            <button class="btn-reject" onclick="updateOrderStatus(${index}, 'rejected')">رفض الطلب ❌</button>
-                        </div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        function updateOrderStatus(index, newStatusCode) {
-            let orders = JSON.parse(localStorage.getItem('all_store_orders') || '[]');
-            
-            if (newStatusCode === 'approved') {
-                orders[index].status = 'تم المقبول والتنفيذ ✅';
-                orders[index].statusCode = 'approved';
-            } else if (newStatusCode === 'rejected') {
-                orders[index].status = 'مرفوض ❌ (تواصل مع الدعم)';
-                orders[index].statusCode = 'rejected';
-            }
-
-            localStorage.setItem('all_store_orders', JSON.stringify(orders));
-            renderUserOrders();
-            renderAdminOrders();
-            alert('تم تحديث حالة الطلب بنجاح.');
-        }
-
-        function accessAdminPanel() {
+        window.accessAdminPanel = function() {
             const pwd = prompt('أدخل كلمة مرور الأدمن:');
             if (pwd === 'sasailmoseba1') {
                 document.getElementById('adminPanel').style.display = 'block';
-                renderAdminOrders();
                 alert('تمت المصادقة بنجاح كأدمن.');
             } else {
                 alert('كلمة المرور غير صحيحة!');
             }
-        }
-
-        window.onload = initApp;
+        };
     </script>
 </body>
 </html>
