@@ -5,19 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>متجر صاصا التاريخ 🧙</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #f4f6f9; color: #333; line-height: 1.6; }
-        header { background: linear-gradient(135deg, #e50914, #1e3c72); color: white; padding: 30px 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        :root {
+            --bg-color: #f4f6f9;
+            --text-color: #333;
+            --card-bg: #fff;
+            --border-color: #ddd;
+            --header-bg: linear-gradient(135deg, #e50914, #1e3c72);
+            --sub-card: #f9fbfd;
+            --input-bg: #fff;
+            --input-text: #333;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --border-color: #333;
+            --header-bg: linear-gradient(135deg, #b20710, #0f1f3d);
+            --sub-card: #252525;
+            --input-bg: #2d2d2d;
+            --input-text: #fff;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: background-color 0.3s, color 0.3s; }
+        body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; }
+        header { background: var(--header-bg); color: white; padding: 30px 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: relative; }
+        
+        .theme-toggle-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .theme-toggle-btn:hover { background: rgba(255, 255, 255, 0.3); }
+
         .container { max-width: 900px; margin: 20px auto; padding: 0 20px; }
         
         .stats-container { display: flex; gap: 15px; margin-bottom: 25px; }
-        .stat-card { flex: 1; background: white; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #ddd; }
+        .stat-card { flex: 1; background: var(--card-bg); padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid var(--border-color); }
         .stat-number { font-size: 1.8rem; font-weight: bold; color: #1e3c72; }
+        [data-theme="dark"] .stat-number { color: #64b5f6; }
         .stat-label { font-size: 0.9rem; color: #666; }
+        [data-theme="dark"] .stat-label { color: #aaa; }
 
         .category-btn { width: 100%; background: #1e3c72; color: white; border: none; padding: 15px; text-align: right; font-size: 1.2rem; font-weight: bold; border-radius: 8px; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .category-content { display: none; margin-bottom: 20px; padding: 10px; background: #fff; border-radius: 8px; border: 1px solid #ddd; }
-        .service-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #eee; }
+        .category-content { display: none; margin-bottom: 20px; padding: 10px; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--border-color); }
+        .service-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid var(--border-color); }
         .service-item:last-child { border-bottom: none; }
         
         .badge-open { background: #2ecc71; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; }
@@ -28,46 +71,50 @@
 
         .btn-order { background: #e50914; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
         .btn-disabled { background: #ccc; color: #666; border: none; padding: 6px 12px; border-radius: 4px; cursor: not-allowed; font-size: 0.9rem; }
-        .section-box { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 25px; border: 1px solid #ddd; }
+        [data-theme="dark"] .btn-disabled { background: #444; color: #888; }
+
+        .section-box { background: var(--card-bg); padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 25px; border: 1px solid var(--border-color); }
         .section-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; color: #1e3c72; border-bottom: 2px solid #1e3c72; padding-bottom: 5px; }
-        .order-track-card { background: #f9fbfd; border: 1px solid #d1e3f8; padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        [data-theme="dark"] .section-title { color: #64b5f6; border-color: #64b5f6; }
+        
+        .order-track-card { background: var(--sub-card); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
 
-        /* Fancy Gradient Divider */
-        .fancy-divider {
+        .fancy-divider, .chill-divider, .payments-divider {
             height: 4px;
             width: 100%;
-            background: linear-gradient(90deg, #ff8a00, #e52e71, #9b51e0, #2f80ed);
             border-radius: 4px;
             margin: 35px 0 25px 0;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-
-        /* Chill Gradient Divider for WhatsApp Section */
-        .chill-divider {
-            height: 4px;
-            width: 100%;
-            background: linear-gradient(90deg, #00b09b, #96c93d, #25D366, #128C7E);
-            border-radius: 4px;
-            margin: 35px 0 25px 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+        .fancy-divider { background: linear-gradient(90deg, #ff8a00, #e52e71, #9b51e0, #2f80ed); }
+        .chill-divider { background: linear-gradient(90deg, #00b09b, #96c93d, #25D366, #128C7E); }
+        .payments-divider { background: linear-gradient(90deg, #f12711, #f5af19, #00c6ff, #0072ff); }
 
         .admin-trigger { background: #34495e; color: white; padding: 12px; text-align: center; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 20px; }
-        .admin-panel { display: none; background: #fff; padding: 20px; border-radius: 8px; border: 2px solid #34495e; margin-top: 10px; margin-bottom: 30px; }
-        .admin-order-card { background: #f8f9fa; border: 1px solid #ccc; padding: 12px; border-radius: 6px; margin-bottom: 10px; }
+        .admin-panel { display: none; background: var(--card-bg); padding: 20px; border-radius: 8px; border: 2px solid #34495e; margin-top: 10px; margin-bottom: 30px; }
+        .admin-order-card { background: var(--sub-card); border: 1px solid var(--border-color); padding: 12px; border-radius: 6px; margin-bottom: 10px; }
         .btn-accept { background: #2ecc71; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         .btn-reject { background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
 
+        .admin-panel input {
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            border: 1px solid var(--border-color);
+            padding: 5px;
+            border-radius: 4px;
+        }
+
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; overflow-y: auto; padding: 20px; }
-        .modal-box { background: white; padding: 25px; border-radius: 10px; width: 90%; max-width: 450px; margin: auto; }
-        .cash-info { background: #eef9ff; border: 1px solid #bce1ff; padding: 12px; border-radius: 6px; margin-bottom: 12px; font-size: 0.95rem; text-align: center; }
-        .cash-number { font-size: 1.2rem; font-weight: bold; color: #e50914; direction: ltr; display: inline-block; margin: 5px 0; background: #fff; padding: 4px 10px; border-radius: 5px; border: 1px dashed #e50914; }
-        .receipt-preview { max-width: 100%; max-height: 120px; margin-top: 5px; border-radius: 4px; display: none; border: 1px solid #ccc; }
+        .modal-box { background: var(--card-bg); color: var(--text-color); padding: 25px; border-radius: 10px; width: 90%; max-width: 450px; margin: auto; border: 1px solid var(--border-color); }
+        .cash-info { background: var(--sub-card); border: 1px solid var(--border-color); padding: 12px; border-radius: 6px; margin-bottom: 12px; font-size: 0.95rem; text-align: center; }
+        .cash-number { font-size: 1.2rem; font-weight: bold; color: #e50914; direction: ltr; display: inline-block; margin: 5px 0; background: var(--card-bg); padding: 4px 10px; border-radius: 5px; border: 1px dashed #e50914; }
+        .receipt-preview { max-width: 100%; max-height: 120px; margin-top: 5px; border-radius: 4px; display: none; border: 1px solid var(--border-color); }
     </style>
 </head>
-<body>
+<body data-theme="light">
 
     <header>
+        <button class="theme-toggle-btn" onclick="toggleThemeGlobal()" id="themeBtn">🌙 دارك مود</button>
         <h1>متجر صاصا التاريخ 🧙</h1>
     </header>
 
@@ -132,7 +179,6 @@
             <div class="service-item"><div><strong>شهادة جواز / طلاق</strong> - <span class="price-val" data-id="c_marriage">370</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شهادة جواز / طلاق', 370)">طلب</button></div>
         </div>
 
-        <!-- Fancy Divider & Section: خدمات الرشق -->
         <div class="fancy-divider"></div>
 
         <button class="category-btn" style="background: linear-gradient(135deg, #8e44ad, #3498db);" onclick="toggleCategory('reshqCategory')"><span>خدمات الرشق 🎵 💙✨</span> <span>▼</span></button>
@@ -145,19 +191,34 @@
             <div class="service-item"><div><strong>رشق متابعين قنوات واتساب {5k} 👥</strong> - <span class="price-val" data-id="r_whatsapp">200</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق متابعين قنوات واتساب {5k} 👥', 200)">طلب</button></div>
             <div class="service-item"><div><strong>تعليقات تيك توك 500 تعليق 💬</strong> - <span class="price-val" data-id="r_tt_comments">120</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('تعليقات تيك توك 500 تعليق 💬', 120)">طلب</button></div>
             <div class="service-item"><div><strong>رشق جروبات / قنوات تليجرام [1k] 🛰️</strong> - <span class="price-val" data-id="r_telegram">200</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق جروبات / قنوات تليجرام [1k] 🛰️', 200)">طلب</button></div>
+            <div class="service-item"><div><strong>رشق متابعين + ليكات فيسبوك ((1k)) 🤩</strong> - <span class="price-val" data-id="r_fb">100</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق متابعين + ليكات فيسبوك ((1k)) 🤩', 100)">طلب</button></div>
+            <div class="service-item"><div><strong>250 متابع يوتيوب 💥</strong> - <span class="price-val" data-id="r_yt">500</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('250 متابع يوتيوب 💥', 500)">طلب</button></div>
         </div>
 
-        <!-- Chill Gradient Divider & Section: خدمات واتساب -->
         <div class="chill-divider"></div>
 
         <button class="category-btn" style="background: linear-gradient(135deg, #00b09b, #25D366);" onclick="toggleCategory('whatsappCategory')"><span>خدمات واتساب 🪀</span> <span>▼</span></button>
         <div class="category-content" id="whatsappCategory">
-            <div class="service-item"><div><strong>فك باني واتساب 🔓</strong> - <span class="price-val" data-id="w_unban">100</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('فك باني واتساب 🔓', 100)">طلب</button></div>
             <div class="service-item"><div><strong>حظر ارقام الواتساب 🚫</strong> - <span class="price-val" data-id="w_ban_num">100</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('حظر ارقام الواتساب 🚫', 100)">طلب</button></div>
             <div class="service-item"><div><strong>فك حظر ارقام الواتساب ✔️</strong> - <span class="price-val" data-id="w_unban_num">150</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('فك حظر ارقام الواتساب ✔️', 150)">طلب</button></div>
+            <div class="service-item"><div><strong>بوت الاستوري 👀</strong> - <span class="price-val" data-id="w_story_bot">20</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بوت الاستوري 👀', 20)">طلب</button></div>
+            <div class="service-item"><div><strong>بوت الكراش 😝</strong> - <span class="price-val" data-id="w_crush_bot">40</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بوت الكراش 😝', 40)">طلب</button></div>
         </div>
 
-        <!-- Admin Panel At The Very Bottom -->
+        <div class="payments-divider"></div>
+
+        <button class="category-btn" style="background: linear-gradient(135deg, #f12711, #0072ff);" onclick="toggleCategory('paymentsCategory')"><span>قسم المدفوعات (شحن الألعاب والباقات) 💳✨</span> <span>▼</span></button>
+        <div class="category-content" id="paymentsCategory">
+            <div class="service-item"><div><strong>شحن جواهر فري فاير (100 جوهرة) 🎮🔥</strong> - <span class="price-val" data-id="pay_freefire">70</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شحن جواهر فري فاير (100 جوهرة) 🎮🔥', 70)">طلب</button></div>
+            <div class="service-item"><div><strong>شحن بويا باس (فري فاير) 🎫🔥</strong> - <span class="price-val" data-id="pay_booyah_pass">70</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شحن بويا باس (فري فاير) 🎫🔥', 70)">طلب</button></div>
+            <div class="service-item"><div><strong>شحن شدات ببجي (60 شدة) 🎯</strong> - <span class="price-val" data-id="pay_pubg">70</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شحن شدات ببجي (60 شدة) 🎯', 70)">طلب</button></div>
+            <div class="service-item"><div><strong>تجديد باقة النت الأرضي (WE) 🌐</strong> - <span class="price-val" data-id="pay_we_internet">330</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('تجديد باقة النت الأرضي (WE) 🌐', 330)">طلب</button></div>
+            <div class="service-item"><div><strong>شحن باقة الموبايل (ميجابايتس/تكت) 📱</strong> - <span class="price-val" data-id="pay_mobile_bundle">35</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شحن باقة الموبايل (ميجابايتس/تكت) 📱', 35)">طلب</button></div>
+            <div class="service-item"><div><strong>عرض وي (10 جيجا + 1000 دقيقة لكل الشبكات) 🎁🌐</strong> - <span class="price-val" data-id="pay_we_offer">220</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('عرض وي (10 جيجا + 1000 دقيقة لكل الشبكات) 🎁🌐', 220)">طلب</button></div>
+        </div>
+
+        <div class="payments-divider"></div>
+
         <div class="admin-trigger" onclick="accessAdminPanel()">⚙️ إعدادات لوحة تحكم الأدمن (قاعدة البيانات) 🔐</div>
         
         <div class="admin-panel" id="adminPanel">
@@ -169,8 +230,8 @@
                 <div><label>فودافون مميز:</label><input type="number" id="p_v2" value="110" style="width:100%; padding:5px;"></div>
                 <div><label>بحث قومي فودافون:</label><input type="number" id="p_v3" value="80" style="width:100%; padding:5px;"></div>
                 <div><label>سحب اتصالات:</label><input type="number" id="p_e1" value="50" style="width:100%; padding:5px;"></div>
-                <div><label>بحث قومي اتصالات (مغلق):</label><input type="number" id="p_e_search" value="0" style="width:100%; padding:5px;"></div>
-                <div><label>بيانات مميز اتصالات (مغلق):</label><input type="number" id="p_e_vip" value="0" style="width:100%; padding:5px;"></div>
+                <div><label>بحث قومي اتصالات:</label><input type="number" id="p_e_search" value="0" style="width:100%; padding:5px;"></div>
+                <div><label>بيانات مميز اتصالات:</label><input type="number" id="p_e_vip" value="0" style="width:100%; padding:5px;"></div>
                 <div><label>سحب اورنج:</label><input type="number" id="p_o1" value="30" style="width:100%; padding:5px;"></div>
                 <div><label>بطاقه من الرقم:</label><input type="number" id="p_w1" value="60" style="width:100%; padding:5px;"></div>
                 <div><label>بحث ارقام وي:</label><input type="number" id="p_w_search" value="60" style="width:100%; padding:5px;"></div>
@@ -190,9 +251,18 @@
                 <div><label>متابعين واتساب:</label><input type="number" id="p_r_whatsapp" value="200" style="width:100%; padding:5px;"></div>
                 <div><label>تعليقات تيك توك:</label><input type="number" id="p_r_tt_comments" value="120" style="width:100%; padding:5px;"></div>
                 <div><label>رشق تليجرام:</label><input type="number" id="p_r_telegram" value="200" style="width:100%; padding:5px;"></div>
-                <div><label>فك باني واتساب:</label><input type="number" id="p_w_unban" value="100" style="width:100%; padding:5px;"></div>
+                <div><label>رشق فيسبوك (1k):</label><input type="number" id="p_r_fb" value="100" style="width:100%; padding:5px;"></div>
+                <div><label>متابعين يوتيوب (250):</label><input type="number" id="p_r_yt" value="500" style="width:100%; padding:5px;"></div>
                 <div><label>حظر ارقام الواتساب:</label><input type="number" id="p_w_ban_num" value="100" style="width:100%; padding:5px;"></div>
                 <div><label>فك حظر ارقام الواتساب:</label><input type="number" id="p_w_unban_num" value="150" style="width:100%; padding:5px;"></div>
+                <div><label>بوت الاستوري:</label><input type="number" id="p_w_story_bot" value="20" style="width:100%; padding:5px;"></div>
+                <div><label>بوت الكراش:</label><input type="number" id="p_w_crush_bot" value="40" style="width:100%; padding:5px;"></div>
+                <div><label>جواهر فري فاير:</label><input type="number" id="p_pay_freefire" value="70" style="width:100%; padding:5px;"></div>
+                <div><label>بويا باس:</label><input type="number" id="p_pay_booyah_pass" value="70" style="width:100%; padding:5px;"></div>
+                <div><label>شدات ببجي:</label><input type="number" id="p_pay_pubg" value="70" style="width:100%; padding:5px;"></div>
+                <div><label>تجديد باقة النت:</label><input type="number" id="p_pay_we_internet" value="330" style="width:100%; padding:5px;"></div>
+                <div><label>باقة الموبايل:</label><input type="number" id="p_pay_mobile_bundle" value="35" style="width:100%; padding:5px;"></div>
+                <div><label>عرض وي (10ج + 1000د):</label><input type="number" id="p_pay_we_offer" value="220" style="width:100%; padding:5px;"></div>
             </div>
             <button onclick="savePricesToFirebase()" class="btn-order" style="width:100%; margin-bottom:15px; background:#1e3c72;">حفظ وتحديث الأسعار سحابياً 💾</button>
 
@@ -215,12 +285,12 @@
             </div>
 
             <form onsubmit="submitFirebaseOrder(event)">
-                <input type="text" id="custName" placeholder="اسمك بالكامل" required style="width: 100%; margin-bottom: 8px; padding: 8px;">
-                <input type="tel" id="custPhone" placeholder="رقم الواتساب الخاص بك" required style="width: 100%; margin-bottom: 8px; padding: 8px;">
-                <input type="text" id="custTarget" placeholder="الرقم المستهدف / يوزر الحساب / الرابط" required style="width: 100%; margin-bottom: 8px; padding: 8px;">
+                <input type="text" id="custName" placeholder="اسمك بالكامل" required style="width: 100%; margin-bottom: 8px; padding: 8px; background: var(--input-bg); color: var(--input-text); border: 1px solid var(--border-color); border-radius: 4px;">
+                <input type="tel" id="custPhone" placeholder="رقم الواتساب الخاص بك" required style="width: 100%; margin-bottom: 8px; padding: 8px; background: var(--input-bg); color: var(--input-text); border: 1px solid var(--border-color); border-radius: 4px;">
+                <input type="text" id="custTarget" placeholder="الرقم المستهدف / يوزر الحساب / الID" required style="width: 100%; margin-bottom: 8px; padding: 8px; background: var(--input-bg); color: var(--input-text); border: 1px solid var(--border-color); border-radius: 4px;">
                 
-                <label style="font-size: 0.85rem; color: #555; display: block; margin-bottom: 3px;">📷 ارفع سكرين شوت التحويل:</label>
-                <input type="file" id="custReceipt" accept="image/*" onchange="previewReceiptImage(event)" required style="width: 100%; margin-bottom: 8px; padding: 5px; background: #fafafa; border: 1px solid #ccc; border-radius: 4px;">
+                <label style="font-size: 0.85rem; color: #777; display: block; margin-bottom: 3px;">📷 ارفع سكرين شوت التحويل:</label>
+                <input type="file" id="custReceipt" accept="image/*" onchange="previewReceiptImage(event)" required style="width: 100%; margin-bottom: 8px; padding: 5px; background: var(--input-bg); color: var(--input-text); border: 1px solid var(--border-color); border-radius: 4px;">
                 <img id="receiptPreview" class="receipt-preview" alt="معاينة الإيصال">
 
                 <button type="submit" class="btn-order" style="width: 100%; padding: 10px; margin-top: 8px;" id="submitBtn">تأكيد الطلب 🚀</button>
@@ -273,17 +343,25 @@
         };
 
         if (db) {
+            // الاستماع لتحديثات الأسعار والمظهر سحابياً
             onSnapshot(doc(db, "settings", "prices"), (docSnap) => {
                 if (docSnap.exists()) {
-                    const prices = docSnap.data();
+                    const data = docSnap.data();
+                    
+                    // تحديث الأسعار
                     document.querySelectorAll('.price-val').forEach(el => {
                         const id = el.getAttribute('data-id');
-                        if (prices[id] !== undefined) {
-                            el.innerText = prices[id];
+                        if (data[id] !== undefined) {
+                            el.innerText = data[id];
                             const input = document.getElementById('p_' + id);
-                            if(input) input.value = prices[id];
+                            if(input) input.value = data[id];
                         }
                     });
+
+                    // تحديث الثيم (الدارك/لايت) للجميع لحظياً
+                    if (data.theme) {
+                        applyTheme(data.theme);
+                    }
                 }
             });
 
@@ -310,11 +388,11 @@
                             <div class="order-track-card">
                                 <div>
                                     <strong>${ord.serviceName}</strong> (${ord.price} ج.م)<br>
-                                    <small style="color: #666;">المستهدف: ${ord.custTarget} | ${ord.date || ''}</small>
+                                    <small style="color: #888;">المستهدف: ${ord.custTarget} | ${ord.date || ''}</small>
                                 </div>
                                 <div style="text-align: left;">
                                     <span class="${badgeClass}">${ord.status}</span>
-                                    ${ord.receipt ? `<br><a href="${ord.receipt}" target="_blank" style="font-size: 0.75rem; color: #1e3c72; text-decoration: underline;">عرض الإيصال 📷</a>` : ''}
+                                    ${ord.receipt ? `<br><a href="${ord.receipt}" target="_blank" style="font-size: 0.75rem; color: #64b5f6; text-decoration: underline;">عرض الإيصال 📷</a>` : ''}
                                 </div>
                             </div>
                         `;
@@ -346,6 +424,44 @@
                     adminContainer.innerHTML = adminHtml;
                 }
             });
+        }
+
+        // دالة تبديل الثيم وحفظه في الفايربيز للجميع
+        window.toggleThemeGlobal = async function() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            applyTheme(newTheme);
+
+            // رفع الثيم الجديد لقاعدة البيانات عشان يتغير عند كل المستخدمين والأدمن
+            if (db) {
+                try {
+                    const currentPrices = gatherPricesData();
+                    currentPrices.theme = newTheme;
+                    await setDoc(doc(db, "settings", "prices"), currentPrices);
+                } catch (e) {
+                    console.error("Error saving theme: ", e);
+                }
+            }
+        };
+
+        function applyTheme(themeName) {
+            document.body.setAttribute('data-theme', themeName);
+            const btn = document.getElementById('themeBtn');
+            if (themeName === 'dark') {
+                btn.innerHTML = '☀️ لايت مود';
+            } else {
+                btn.innerHTML = '🌙 دارك مود';
+            }
+        }
+
+        function gatherPricesData() {
+            const pricesData = {};
+            ['v1', 'v2', 'v3', 'e1', 'e_search', 'e_vip', 'o1', 'w1', 'w_search', 'w_landline', 't1', 'c_normal', 'c_detailed', 'c_screen', 'c_death', 'c_birth', 'c_marriage', 'r_tiktok', 'r_insta', 'r_views', 'r_explore', 'r_likes', 'r_whatsapp', 'r_tt_comments', 'r_telegram', 'r_fb', 'r_yt', 'w_ban_num', 'w_unban_num', 'w_story_bot', 'w_crush_bot', 'pay_freefire', 'pay_booyah_pass', 'pay_pubg', 'pay_we_internet', 'pay_mobile_bundle', 'pay_we_offer'].forEach(id => {
+                const input = document.getElementById('p_' + id);
+                if(input) pricesData[id] = input.value;
+            });
+            return pricesData;
         }
 
         window.submitFirebaseOrder = async function(e) {
@@ -404,16 +520,13 @@
         };
 
         window.savePricesToFirebase = async function() {
-            const newPrices = {};
-            ['v1', 'v2', 'v3', 'e1', 'e_search', 'e_vip', 'o1', 'w1', 'w_search', 'w_landline', 't1', 'c_normal', 'c_detailed', 'c_screen', 'c_death', 'c_birth', 'c_marriage', 'r_tiktok', 'r_insta', 'r_views', 'r_explore', 'r_likes', 'r_whatsapp', 'r_tt_comments', 'r_telegram', 'w_unban', 'w_ban_num', 'w_unban_num'].forEach(id => {
-                const input = document.getElementById('p_' + id);
-                if(input) newPrices[id] = input.value;
-            });
+            const newPrices = gatherPricesData();
+            newPrices.theme = document.body.getAttribute('data-theme');
             try {
                 await setDoc(doc(db, "settings", "prices"), newPrices);
-                alert('✅ تم حفظ وتحديث الأسعار سحابياً!');
+                alert('✅ تم حفظ وتحديث الأسعار والمظهر سحابياً!');
             } catch (e) {
-                alert('خطأ في حفظ الأسعار: ' + e.message);
+                alert('خطأ في حفظ البيانات: ' + e.message);
             }
         };
 
