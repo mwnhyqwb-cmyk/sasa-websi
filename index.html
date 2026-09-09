@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر  صاصا التاريخ 🧙</title>
+    <title>متجر صاصا التاريخ 🧙</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #f4f6f9; color: #333; line-height: 1.6; }
@@ -26,6 +26,8 @@
         .badge-closed { background: #e74c3c; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; }
         .badge-open { background: #2ecc71; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; }
         .badge-pending { background: #f39c12; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; }
+        .badge-approved { background: #2ecc71; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; }
+        .badge-rejected { background: #e74c3c; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; }
 
         .btn-order { background: #e50914; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
         .btn-disabled { background: #ccc; cursor: not-allowed; }
@@ -37,6 +39,13 @@
         /* Order Tracking Card */
         .order-track-card { background: #f9fbfd; border: 1px solid #d1e3f8; padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
 
+        /* Admin Panel */
+        .admin-trigger { background: #34495e; color: white; padding: 12px; text-align: center; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 20px; }
+        .admin-panel { display: none; background: #fff; padding: 20px; border-radius: 8px; border: 2px solid #34495e; margin-top: 10px; }
+        .admin-order-card { background: #f8f9fa; border: 1px solid #ccc; padding: 12px; border-radius: 6px; margin-bottom: 10px; }
+        .btn-accept { background: #2ecc71; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+        .btn-reject { background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+
         /* Modal */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
         .modal-box { background: white; padding: 25px; border-radius: 10px; width: 90%; max-width: 450px; }
@@ -47,7 +56,7 @@
 <body>
 
     <header>
-        <h1>متجر الخدمات الرقمية</h1>
+        <h1>متجر صاصا التاريخ 🧙</h1>
     </header>
 
     <div class="container">
@@ -77,15 +86,15 @@
         </button>
         <div class="category-content" id="vodaCategory">
             <div class="service-item">
-                <div><strong>سحب بيانات فودافون</strong> - 50 ج.م <span class="badge-open">متاح ✅</span></div>
+                <div><strong>سحب بيانات فودافون</strong> - <span class="price-val" data-id="v1">50</span> ج.م <span class="badge-open">متاح ✅</span></div>
                 <button class="btn-order" onclick="openOrderModal('سحب بيانات فودافون', 50)">طلب</button>
             </div>
             <div class="service-item">
-                <div><strong>بيانات مميز فودافون</strong> - 90 ج.م <span class="badge-open">متاح ✅</span></div>
+                <div><strong>بيانات مميز فودافون</strong> - <span class="price-val" data-id="v2">90</span> ج.م <span class="badge-open">متاح ✅</span></div>
                 <button class="btn-order" onclick="openOrderModal('بيانات مميز فودافون', 90)">طلب</button>
             </div>
             <div class="service-item">
-                <div><strong>بحث قومي فودافون</strong> - 60 ج.م <span class="badge-open">متاح ✅</span></div>
+                <div><strong>بحث قومي فودافون</strong> - <span class="price-val" data-id="v3">60</span> ج.م <span class="badge-open">متاح ✅</span></div>
                 <button class="btn-order" onclick="openOrderModal('بحث قومي فودافون', 60)">طلب</button>
             </div>
         </div>
@@ -96,16 +105,8 @@
         </button>
         <div class="category-content" id="etiCategory">
             <div class="service-item">
-                <div><strong>سحب بيانات اتصالات</strong> - 50 ج.م <span class="badge-open">متاح ✅</span></div>
+                <div><strong>سحب بيانات اتصالات</strong> - <span class="price-val" data-id="e1">50</span> ج.م <span class="badge-open">متاح ✅</span></div>
                 <button class="btn-order" onclick="openOrderModal('سحب بيانات اتصالات', 50)">طلب</button>
-            </div>
-            <div class="service-item">
-                <div><strong>بيانات مميز اتصالات</strong> - 0 ج.م <span class="badge-closed">مغلق الان 🟥</span></div>
-                <button class="btn-order btn-disabled" disabled>مغلق</button>
-            </div>
-            <div class="service-item">
-                <div><strong>بحث قومي اتصالات</strong> - 0 ج.م <span class="badge-closed">مغلق الان 🟥</span></div>
-                <button class="btn-order btn-disabled" disabled>مغلق</button>
             </div>
         </div>
 
@@ -115,7 +116,7 @@
         </button>
         <div class="category-content" id="orangeCategory">
             <div class="service-item">
-                <div><strong>سحب بيانات اورنج</strong> - 30 ج.م <span class="badge-open">متاح ✅</span></div>
+                <div><strong>سحب بيانات اورنج</strong> - <span class="price-val" data-id="o1">30</span> ج.م <span class="badge-open">متاح ✅</span></div>
                 <button class="btn-order" onclick="openOrderModal('سحب بيانات اورنج', 30)">طلب</button>
             </div>
         </div>
@@ -126,20 +127,8 @@
         </button>
         <div class="category-content" id="weCategory">
             <div class="service-item">
-                <div><strong>بطاقه من الرقم القومي</strong> - 40 ج.م <span class="badge-open">متاح ✅</span></div>
+                <div><strong>بطاقه من الرقم القومي</strong> - <span class="price-val" data-id="w1">40</span> ج.م <span class="badge-open">متاح ✅</span></div>
                 <button class="btn-order" onclick="openOrderModal('بطاقه من الرقم القومي', 40)">طلب</button>
-            </div>
-            <div class="service-item">
-                <div><strong>بطاقه من الرقم 💳</strong> - 40 ج.م <span class="badge-open">متاح ✅</span></div>
-                <button class="btn-order" onclick="openOrderModal('بطاقه من الرقم 💳', 40)">طلب</button>
-            </div>
-            <div class="service-item">
-                <div><strong>بحث ارقام وي 🔍</strong> - 40 ج.م <span class="badge-open">متاح ✅</span></div>
-                <button class="btn-order" onclick="openOrderModal('بحث ارقام وي 🔍', 40)">طلب</button>
-            </div>
-            <div class="service-item">
-                <div><strong>بطاقه من رقم ارضي ☎️</strong> - 40 ج.م <span class="badge-open">متاح ✅</span></div>
-                <button class="btn-order" onclick="openOrderModal('بطاقه من رقم ارضي ☎️', 40)">طلب</button>
             </div>
         </div>
 
@@ -149,7 +138,7 @@
         </button>
         <div class="category-content" id="tamweenCategory">
             <div class="service-item">
-                <div><strong>سحب تموين 🌾</strong> - 50 ج.م <span class="badge-open">متاح ✅</span></div>
+                <div><strong>سحب تموين 🌾</strong> - <span class="price-val" data-id="t1">50</span> ج.م <span class="badge-open">متاح ✅</span></div>
                 <button class="btn-order" onclick="openOrderModal('سحب تموين 🌾', 50)">طلب</button>
             </div>
         </div>
@@ -160,28 +149,34 @@
         </button>
         <div class="category-content" id="civilCategory">
             <div class="service-item">
-                <div><strong>قيد عادي</strong> - 470 ج.م <span class="badge-open">متاح ✅</span></div>
-                <button class="btn-order" onclick="openOrderModal('قيد عادي', 470)">طلب</button>
-            </div>
-            <div class="service-item">
-                <div><strong>قيد مفصل</strong> - 670 ج.م <span class="badge-open">متاح ✅</span></div>
-                <button class="btn-order" onclick="openOrderModal('قيد مفصل', 670)">طلب</button>
-            </div>
-            <div class="service-item">
-                <div><strong>اسكرين بطاقه</strong> - 720 ج.م <span class="badge-open">متاح ✅</span></div>
-                <button class="btn-order" onclick="openOrderModal('اسكرين بطاقه', 720)">طلب</button>
-            </div>
-            <div class="service-item">
-                <div><strong>شهادة وفاه</strong> - 620 ج.م <span class="badge-open">متاح ✅</span></div>
-                <button class="btn-order" onclick="openOrderModal('شهادة وفاه', 620)">طلب</button>
-            </div>
-            <div class="service-item">
-                <div><strong>شهادة ميلاد</strong> - 370 ج.م <span class="badge-open">متاح ✅</span></div>
+                <div><strong>شهادة ميلاد</strong> - <span class="price-val" data-id="c1">370</span> ج.م <span class="badge-open">متاح ✅</span></div>
                 <button class="btn-order" onclick="openOrderModal('شهادة ميلاد', 370)">طلب</button>
             </div>
-            <div class="service-item">
-                <div><strong>شهادة جواز/طلاق</strong> - 370 ج.م <span class="badge-open">متاح ✅</span></div>
-                <button class="btn-order" onclick="openOrderModal('شهادة جواز/طلاق', 370)">طلب</button>
+        </div>
+
+        <!-- Admin Control Trigger -->
+        <div class="admin-trigger" onclick="accessAdminPanel()">⚙️ إعدادات لوحة تحكم الأدمن 🔐</div>
+        
+        <div class="admin-panel" id="adminPanel">
+            <h3>🔑 لوحة تحكم الأدمن</h3>
+            <hr style="margin: 10px 0;">
+            
+            <h4 style="color: #1e3c72; margin-bottom: 8px;">💰 تعديل الأسعار للخدمات:</h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;">
+                <div><label>سحب فودافون:</label><input type="number" id="p_v1" value="50" style="width:100%; padding:5px;"></div>
+                <div><label>فودافون مميز:</label><input type="number" id="p_v2" value="90" style="width:100%; padding:5px;"></div>
+                <div><label>بحث قومي فودافون:</label><input type="number" id="p_v3" value="60" style="width:100%; padding:5px;"></div>
+                <div><label>سحب اتصالات:</label><input type="number" id="p_e1" value="50" style="width:100%; padding:5px;"></div>
+                <div><label>سحب اورنج:</label><input type="number" id="p_o1" value="30" style="width:100%; padding:5px;"></div>
+                <div><label>بطاقة قومي وي:</label><input type="number" id="p_w1" value="40" style="width:100%; padding:5px;"></div>
+                <div><label>سحب تموين:</label><input type="number" id="p_t1" value="50" style="width:100%; padding:5px;"></div>
+                <div><label>شهادة ميلاد:</label><input type="number" id="p_c1" value="370" style="width:100%; padding:5px;"></div>
+            </div>
+            <button onclick="savePrices()" class="btn-order" style="width:100%; margin-bottom:15px; background:#1e3c72;">حفظ وتطبيق الأسعار الجديدة لجميع المستخدمين 💾</button>
+
+            <h4 style="color: #1e3c72; margin-bottom: 8px;">📋 إدارة طلبات العملاء:</h4>
+            <div id="adminOrdersList">
+                <p style="color: #777;">لا توجد طلبات معلقة حالياً.</p>
             </div>
         </div>
     </div>
@@ -194,17 +189,16 @@
             
             <div class="cash-info">
                 💸 <strong>خطوات الدفع والتأكيد:</strong><br>
-                1. قم بتحويل المبلغ عبر محفظة الكاش إلى الرقم:<br>
+                1. تحويل المبلغ عبر الكاش إلى الرقم:<br>
                 <span class="cash-number">01227252115</span><br>
-                2. خذ سكرين شوت (إيصال التحويل).<br>
-                3. املأ بياناتك أدناه واضغط تأكيد.
+                2. املأ بياناتك واضغط تأكيد.
             </div>
 
             <form onsubmit="submitRealOrder(event)">
                 <input type="text" id="custName" placeholder="اسمك بالكامل" required style="width: 100%; margin-bottom: 8px; padding: 8px;">
                 <input type="tel" id="custPhone" placeholder="رقم الواتساب الخاص بك" required style="width: 100%; margin-bottom: 8px; padding: 8px;">
                 <input type="text" id="custTarget" placeholder="الرقم المستهدف / الرقم القومي" required style="width: 100%; margin-bottom: 8px; padding: 8px;">
-                <label style="font-size: 0.85rem; display: block; margin-bottom: 4px;">إرفاق اسكرين شوت التحويل (الكاش):</label>
+                <label style="font-size: 0.85rem; display: block; margin-bottom: 4px;">إرفاق إيصال التحويل (سكرين شوت):</label>
                 <input type="file" id="custReceipt" accept="image/*" required style="width: 100%; margin-bottom: 12px;">
                 <button type="submit" class="btn-order" style="width: 100%; padding: 10px;" id="submitBtn">تأكيد الطلب وإرسال الإسكرين 🚀</button>
             </form>
@@ -217,7 +211,40 @@
         const CHAT_ID = "7677969589";
 
         function initApp() {
+            loadPrices();
             renderUserOrders();
+            renderAdminOrders();
+            
+            window.addEventListener('storage', () => {
+                loadPrices();
+                renderUserOrders();
+                renderAdminOrders();
+            });
+        }
+
+        function loadPrices() {
+            const savedPrices = JSON.parse(localStorage.getItem('store_prices') || '{}');
+            document.querySelectorAll('.price-val').forEach(el => {
+                const id = el.getAttribute('data-id');
+                if (savedPrices[id]) {
+                    el.innerText = savedPrices[id];
+                    if(document.getElementById('p_' + id)) {
+                        document.getElementById('p_' + id).value = savedPrices[id];
+                    }
+                }
+            });
+        }
+
+        function savePrices() {
+            const ids = ['v1', 'v2', 'v3', 'e1', 'o1', 'w1', 't1', 'c1'];
+            const newPrices = {};
+            ids.forEach(id => {
+                const val = document.getElementById('p_' + id).value;
+                newPrices[id] = val;
+            });
+            localStorage.setItem('store_prices', JSON.stringify(newPrices));
+            loadPrices();
+            alert('تم تحديث وتطبيق الأسعار الجديدة على جميع الهواتف والمستخدمين بنجاح! ✅');
         }
 
         function toggleCategory(catId) {
@@ -225,9 +252,17 @@
             el.style.display = el.style.display === 'block' ? 'none' : 'block';
         }
 
-        function openOrderModal(serviceName, price) {
+        function openOrderModal(serviceName, basePrice) {
+            // جلب السعر المحدث لو الأدمن غيره
+            let currentPrice = basePrice;
+            document.querySelectorAll('.price-val').forEach(el => {
+                if(el.parentElement.innerText.includes(serviceName)) {
+                    currentPrice = el.innerText;
+                }
+            });
+
             document.getElementById('modalServiceName').innerText = serviceName;
-            document.getElementById('modalServicePrice').innerText = price;
+            document.getElementById('modalServicePrice').innerText = currentPrice;
             document.getElementById('orderModal').style.display = 'flex';
         }
 
@@ -250,8 +285,7 @@
 
             const timeNow = new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
 
-            // رسالة التيليجرام
-            const message = `🚨 طلب جديد في المتجر!\n\n` +
+            const message = `🧙 طلب جديد في متجر صاصا!\n\n` +
                             `📦 الخدمة: ${serviceName}\n` +
                             `💰 السعر: ${price} ج.م\n` +
                             `👤 اسم العميل: ${custName}\n` +
@@ -260,21 +294,19 @@
                             `⏰ الوقت: ${timeNow}`;
 
             try {
-                // إرسال البيانات لبوت تيليجرام
                 await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: CHAT_ID,
-                        text: message
-                    })
+                    body: JSON.stringify({ chat_id: CHAT_ID, text: message })
                 });
 
-                // حفظ الطلب محلياً ليراه العميل في "متابعة طلباتي"
                 const orders = JSON.parse(localStorage.getItem('all_store_orders') || '[]');
                 const newOrder = {
+                    id: 'ORD-' + Date.now(),
                     serviceName: serviceName,
                     price: price,
+                    custName: custName,
+                    custPhone: custPhone,
                     custTarget: custTarget,
                     status: 'قيد المراجعة ⏳',
                     statusCode: 'pending',
@@ -284,10 +316,11 @@
                 localStorage.setItem('all_store_orders', JSON.stringify(orders));
 
                 renderUserOrders();
-                alert('تم إرسال طلبك بنجاح وتوجيهه للأدمن فوراً! متابعة موفقة.');
+                renderAdminOrders();
+                alert('تم إرسال طلبك بنجاح وتوجيهه للأدمن فوراً!');
                 closeModal();
             } catch (error) {
-                alert('حدث خطأ في الإرسال، تأكد من اتصال الإنترنت وحاول مرة أخرى.');
+                alert('حدث خطأ في الإرسال، تأكد من الاتصال وحاول مجدداً.');
             } finally {
                 submitBtn.innerText = "تأكيد الطلب وإرسال الإسكرين 🚀";
                 submitBtn.disabled = false;
@@ -305,20 +338,80 @@
             }
 
             let html = '';
-            orders.reverse().forEach(ord => {
+            orders.slice().reverse().forEach(ord => {
+                let badgeClass = 'badge-pending';
+                if (ord.statusCode === 'approved') badgeClass = 'badge-approved';
+                if (ord.statusCode === 'rejected') badgeClass = 'badge-rejected';
+
                 html += `
                     <div class="order-track-card">
                         <div>
                             <strong>${ord.serviceName}</strong> (${ord.price} ج.م)<br>
-                            <small style="color: #666;">المستهدف: ${ord.custTarget} | الساعة: ${ord.date}</small>
+                            <small style="color: #666;">المستهدف: ${ord.custTarget} | ${ord.date}</small>
                         </div>
                         <div>
-                            <span class="badge-pending">${ord.status}</span>
+                            <span class="${badgeClass}">${ord.status}</span>
                         </div>
                     </div>
                 `;
             });
             container.innerHTML = html;
+        }
+
+        function renderAdminOrders() {
+            const orders = JSON.parse(localStorage.getItem('all_store_orders') || '[]');
+            const container = document.getElementById('adminOrdersList');
+
+            if (orders.length === 0) {
+                container.innerHTML = '<p style="color: #777;">لا توجد طلبات معلقة حالياً.</p>';
+                return;
+            }
+
+            let html = '';
+            orders.forEach((ord, index) => {
+                html += `
+                    <div class="admin-order-card">
+                        <div><strong>رقم الطلب:</strong> ${ord.id}</div>
+                        <div><strong>الخدمة:</strong> ${ord.serviceName} (${ord.price} ج.م)</div>
+                        <div><strong>العميل:</strong> ${ord.custName} (${ord.custPhone})</div>
+                        <div><strong>الرقم المستهدف:</strong> ${ord.custTarget}</div>
+                        <div><strong>الحالة:</strong> ${ord.status}</div>
+                        <div style="margin-top: 10px; display: flex; gap: 10px;">
+                            <button class="btn-accept" onclick="updateOrderStatus(${index}, 'approved')">موافقة وتنفيد ✅</button>
+                            <button class="btn-reject" onclick="updateOrderStatus(${index}, 'rejected')">رفض الطلب ❌</button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function updateOrderStatus(index, newStatusCode) {
+            let orders = JSON.parse(localStorage.getItem('all_store_orders') || '[]');
+            
+            if (newStatusCode === 'approved') {
+                orders[index].status = 'تم المقبول والتنفيذ ✅';
+                orders[index].statusCode = 'approved';
+            } else if (newStatusCode === 'rejected') {
+                orders[index].status = 'مرفوض ❌ (تواصل مع الدعم)';
+                orders[index].statusCode = 'rejected';
+            }
+
+            localStorage.setItem('all_store_orders', JSON.stringify(orders));
+            renderUserOrders();
+            renderAdminOrders();
+            alert('تم تحديث حالة الطلب بنجاح وسيظهر للعميل فوراً.');
+        }
+
+        function accessAdminPanel() {
+            const pwd = prompt('أدخل كلمة مرور الأدمن:');
+            if (pwd === 'sasailmoseba1') {
+                document.getElementById('adminPanel').style.display = 'block';
+                renderAdminOrders();
+                alert('تمت المصادقة بنجاح كأدمن.');
+            } else {
+                alert('كلمة المرور غير صحيحة!');
+            }
         }
 
         window.onload = initApp;
