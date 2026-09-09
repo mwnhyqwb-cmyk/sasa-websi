@@ -42,6 +42,16 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
+        /* Chill Gradient Divider for WhatsApp Section */
+        .chill-divider {
+            height: 4px;
+            width: 100%;
+            background: linear-gradient(90deg, #00b09b, #96c93d, #25D366, #128C7E);
+            border-radius: 4px;
+            margin: 35px 0 25px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
         .admin-trigger { background: #34495e; color: white; padding: 12px; text-align: center; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 20px; }
         .admin-panel { display: none; background: #fff; padding: 20px; border-radius: 8px; border: 2px solid #34495e; margin-top: 10px; margin-bottom: 30px; }
         .admin-order-card { background: #f8f9fa; border: 1px solid #ccc; padding: 12px; border-radius: 6px; margin-bottom: 10px; }
@@ -122,14 +132,29 @@
             <div class="service-item"><div><strong>شهادة جواز / طلاق</strong> - <span class="price-val" data-id="c_marriage">370</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شهادة جواز / طلاق', 370)">طلب</button></div>
         </div>
 
-        <!-- Fancy Divider & New Section: خدمات الرشق مع علامة التيك توك -->
+        <!-- Fancy Divider & Section: خدمات الرشق -->
         <div class="fancy-divider"></div>
 
         <button class="category-btn" style="background: linear-gradient(135deg, #8e44ad, #3498db);" onclick="toggleCategory('reshqCategory')"><span>خدمات الرشق 🎵 💙✨</span> <span>▼</span></button>
         <div class="category-content" id="reshqCategory">
-            <div class="service-item"><div><strong>رشق متابعين تيك توك (1k) 🎵🚀</strong> - <span class="price-val" data-id="r_tiktok">100</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق متابعين تيك توك (1k) 🎵🚀', 100)">طلب</button></div>
-            <div class="service-item"><div><strong>رشق متابعين انستجرام (1k) 📸</strong> - <span class="price-val" data-id="r_insta">80</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق متابعين انستجرام (1k) 📸', 80)">طلب</button></div>
-            <div class="service-item"><div><strong>رشق لايكات ومشاهدات 👁️</strong> - <span class="price-val" data-id="r_views">30</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق لايكات ومشاهدات 👁️', 30)">طلب</button></div>
+            <div class="service-item"><div><strong>رشق متابعين تيك توك (1k) 🎵🚀</strong> - <span class="price-val" data-id="r_tiktok">150</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق متابعين تيك توك (1k) 🎵🚀', 150)">طلب</button></div>
+            <div class="service-item"><div><strong>رشق متابعين انستجرام [1k] ثابت ➕</strong> - <span class="price-val" data-id="r_insta">200</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق متابعين انستجرام [1k] ثابت ➕', 200)">طلب</button></div>
+            <div class="service-item"><div><strong>رشق مشاهدات تيك توك {1k}👁️</strong> - <span class="price-val" data-id="r_views">50</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق مشاهدات تيك توك {1k}👁️', 50)">طلب</button></div>
+            <div class="service-item"><div><strong>اكسبلور تيك توك [1k] 🦈</strong> - <span class="price-val" data-id="r_explore">130</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('اكسبلور تيك توك [1k] 🦈', 130)">طلب</button></div>
+            <div class="service-item"><div><strong>لايكات تيك توك أو انستجرام [1k] ♥️</strong> - <span class="price-val" data-id="r_likes">100</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('لايكات تيك توك أو انستجرام [1k] ♥️', 100)">طلب</button></div>
+            <div class="service-item"><div><strong>رشق متابعين قنوات واتساب {5k} 👥</strong> - <span class="price-val" data-id="r_whatsapp">200</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق متابعين قنوات واتساب {5k} 👥', 200)">طلب</button></div>
+            <div class="service-item"><div><strong>تعليقات تيك توك 500 تعليق 💬</strong> - <span class="price-val" data-id="r_tt_comments">120</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('تعليقات تيك توك 500 تعليق 💬', 120)">طلب</button></div>
+            <div class="service-item"><div><strong>رشق جروبات / قنوات تليجرام [1k] 🛰️</strong> - <span class="price-val" data-id="r_telegram">200</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق جروبات / قنوات تليجرام [1k] 🛰️', 200)">طلب</button></div>
+        </div>
+
+        <!-- Chill Gradient Divider & Section: خدمات واتساب -->
+        <div class="chill-divider"></div>
+
+        <button class="category-btn" style="background: linear-gradient(135deg, #00b09b, #25D366);" onclick="toggleCategory('whatsappCategory')"><span>خدمات واتساب 🪀</span> <span>▼</span></button>
+        <div class="category-content" id="whatsappCategory">
+            <div class="service-item"><div><strong>فك باني واتساب 🔓</strong> - <span class="price-val" data-id="w_unban">100</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('فك باني واتساب 🔓', 100)">طلب</button></div>
+            <div class="service-item"><div><strong>حظر ارقام الواتساب 🚫</strong> - <span class="price-val" data-id="w_ban_num">100</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('حظر ارقام الواتساب 🚫', 100)">طلب</button></div>
+            <div class="service-item"><div><strong>فك حظر ارقام الواتساب ✔️</strong> - <span class="price-val" data-id="w_unban_num">150</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('فك حظر ارقام الواتساب ✔️', 150)">طلب</button></div>
         </div>
 
         <!-- Admin Panel At The Very Bottom -->
@@ -157,9 +182,17 @@
                 <div><label>شهادة وفاة:</label><input type="number" id="p_c_death" value="620" style="width:100%; padding:5px;"></div>
                 <div><label>شهادة ميلاد:</label><input type="number" id="p_c_birth" value="370" style="width:100%; padding:5px;"></div>
                 <div><label>شهادة جواز/طلاق:</label><input type="number" id="p_c_marriage" value="370" style="width:100%; padding:5px;"></div>
-                <div><label>رشق تيك توك:</label><input type="number" id="p_r_tiktok" value="100" style="width:100%; padding:5px;"></div>
-                <div><label>رشق انستجرام:</label><input type="number" id="p_r_insta" value="80" style="width:100%; padding:5px;"></div>
-                <div><label>رشق لايكات ومشاهدات:</label><input type="number" id="p_r_views" value="30" style="width:100%; padding:5px;"></div>
+                <div><label>رشق تيك توك:</label><input type="number" id="p_r_tiktok" value="150" style="width:100%; padding:5px;"></div>
+                <div><label>رشق انستجرام ثابت:</label><input type="number" id="p_r_insta" value="200" style="width:100%; padding:5px;"></div>
+                <div><label>رشق مشاهدات تيك توك:</label><input type="number" id="p_r_views" value="50" style="width:100%; padding:5px;"></div>
+                <div><label>اكسبلور تيك توك:</label><input type="number" id="p_r_explore" value="130" style="width:100%; padding:5px;"></div>
+                <div><label>لايكات تيك توك/انستا:</label><input type="number" id="p_r_likes" value="100" style="width:100%; padding:5px;"></div>
+                <div><label>متابعين واتساب:</label><input type="number" id="p_r_whatsapp" value="200" style="width:100%; padding:5px;"></div>
+                <div><label>تعليقات تيك توك:</label><input type="number" id="p_r_tt_comments" value="120" style="width:100%; padding:5px;"></div>
+                <div><label>رشق تليجرام:</label><input type="number" id="p_r_telegram" value="200" style="width:100%; padding:5px;"></div>
+                <div><label>فك باني واتساب:</label><input type="number" id="p_w_unban" value="100" style="width:100%; padding:5px;"></div>
+                <div><label>حظر ارقام الواتساب:</label><input type="number" id="p_w_ban_num" value="100" style="width:100%; padding:5px;"></div>
+                <div><label>فك حظر ارقام الواتساب:</label><input type="number" id="p_w_unban_num" value="150" style="width:100%; padding:5px;"></div>
             </div>
             <button onclick="savePricesToFirebase()" class="btn-order" style="width:100%; margin-bottom:15px; background:#1e3c72;">حفظ وتحديث الأسعار سحابياً 💾</button>
 
@@ -184,7 +217,7 @@
             <form onsubmit="submitFirebaseOrder(event)">
                 <input type="text" id="custName" placeholder="اسمك بالكامل" required style="width: 100%; margin-bottom: 8px; padding: 8px;">
                 <input type="tel" id="custPhone" placeholder="رقم الواتساب الخاص بك" required style="width: 100%; margin-bottom: 8px; padding: 8px;">
-                <input type="text" id="custTarget" placeholder="الرقم المستهدف / يوزر الحساب" required style="width: 100%; margin-bottom: 8px; padding: 8px;">
+                <input type="text" id="custTarget" placeholder="الرقم المستهدف / يوزر الحساب / الرابط" required style="width: 100%; margin-bottom: 8px; padding: 8px;">
                 
                 <label style="font-size: 0.85rem; color: #555; display: block; margin-bottom: 3px;">📷 ارفع سكرين شوت التحويل:</label>
                 <input type="file" id="custReceipt" accept="image/*" onchange="previewReceiptImage(event)" required style="width: 100%; margin-bottom: 8px; padding: 5px; background: #fafafa; border: 1px solid #ccc; border-radius: 4px;">
@@ -372,7 +405,7 @@
 
         window.savePricesToFirebase = async function() {
             const newPrices = {};
-            ['v1', 'v2', 'v3', 'e1', 'e_search', 'e_vip', 'o1', 'w1', 'w_search', 'w_landline', 't1', 'c_normal', 'c_detailed', 'c_screen', 'c_death', 'c_birth', 'c_marriage', 'r_tiktok', 'r_insta', 'r_views'].forEach(id => {
+            ['v1', 'v2', 'v3', 'e1', 'e_search', 'e_vip', 'o1', 'w1', 'w_search', 'w_landline', 't1', 'c_normal', 'c_detailed', 'c_screen', 'c_death', 'c_birth', 'c_marriage', 'r_tiktok', 'r_insta', 'r_views', 'r_explore', 'r_likes', 'r_whatsapp', 'r_tt_comments', 'r_telegram', 'w_unban', 'w_ban_num', 'w_unban_num'].forEach(id => {
                 const input = document.getElementById('p_' + id);
                 if(input) newPrices[id] = input.value;
             });
