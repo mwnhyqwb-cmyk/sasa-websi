@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="Q7BvtF-zWCJq4FDip-TlZ_6uyzhn_HXFFmukvYEWW8w" />
     <meta name="description" content="متجر صاصا التاريخ - أفضل خدمات الشبكات، السجل المدني، رشق المتابعين، وشحن الألعاب والباقات سحابياً وبأفضل الأسعار">
-    <meta name="keywords" content="متجر صاصا, متجر صاصا التاريخ, خدمات فودافون, رشق تيك توك, شحن جواهر فري فاير">
     <title>متجر صاصا التاريخ 🧙</title>
     <style>
         :root {
@@ -83,11 +82,7 @@
         .order-track-card { background: var(--sub-card); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
 
         .fancy-divider, .chill-divider, .payments-divider, .fake-divider {
-            height: 4px;
-            width: 100%;
-            border-radius: 4px;
-            margin: 35px 0 25px 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            height: 4px; width: 100%; border-radius: 4px; margin: 35px 0 25px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         .fancy-divider { background: linear-gradient(90deg, #ff8a00, #e52e71, #9b51e0, #2f80ed); }
         .chill-divider { background: linear-gradient(90deg, #00b09b, #96c93d, #25D366, #128C7E); }
@@ -313,7 +308,7 @@
         </div>
     </div>
 
-    <!-- Firebase & Logic Script -->
+    <!-- Application Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, doc, updateDoc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -323,6 +318,191 @@
             authDomain: "sasa-store-cb353.firebaseapp.com",
             projectId: "sasa-store-cb353",
         };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let currentServiceName = "";
+        let currentServicePrice = 0;
+        let base64Receipt = "";
+
+        window.toggleThemeGlobal = function() {
+            const body = document.body;
+            const btn = document.getElementById('themeBtn');
+            if (body.getAttribute('data-theme') === 'light') {
+                body.setAttribute('data-theme', 'dark');
+                btn.textContent = '☀️ فواتح مود';
+            } else {
+                body.setAttribute('data-theme', 'light');
+                btn.textContent = '🌙 دارك مود';
+            }
+        };
+
+        window.toggleCategory = function(id) {
+            const content = document.getElementById(id);
+            content.style.display = content.style.display === 'block' ? 'none' : 'block';
+        };
+
+        window.openOrderModal = function(name, price) {
+            currentServiceName = name;
+            currentServicePrice = price;
+            document.getElementById('modalServiceName').textContent = name;
+            document.getElementById('modalServicePrice').textContent = price;
+            document.getElementById('orderModal').style.display = 'flex';
+        };
+
+        window.closeModal = function() {
+            document.getElementById('orderModal').style.display = 'none';
+            document.getElementById('custReceipt').value = '';
+            document.getElementById('receiptPreview').style.display = 'none';
+            base64Receipt = "";
+        };
+
+        window.previewReceiptImage = function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    base64Receipt = e.target.result;
+                    const preview = document.getElementById('receiptPreview');
+                    preview.src = base64Receipt;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+
+        window.submitFirebaseOrder = async function(e) {
+            e.preventDefault();
+            const name = document.getElementById('custName').value;
+            const phone = document.getElementById('custPhone').value;
+            const target = document.getElementById('custTarget').value;
+            const btn = document.getElementById('submitBtn');
+
+            btn.disabled = true;
+            btn.textContent = "جاري إرسال الطلب للسحابة... ⏳";
+
+            try {
+                await addDoc(collection(db, "sasa_orders"), {
+                    serviceName: currentServiceName,
+                    servicePrice: currentServicePrice,
+                    customerName: name,
+                    customerPhone: phone,
+                    customerTarget: target,
+                    receiptImage: base64Receipt,
+                    status: "قيد المراجعة ⏳",
+                    timestamp: new Date().toISOString()
+                });
+                alert("تم إرسال طلبك بنجاح يا صاصا! هنراجع التحويل ونفذه في أسرع وقت 🚀");
+                closeModal();
+                document.getElementById('custName').value = '';
+                document.getElementById('custPhone').value = '';
+                document.getElementById('custTarget').value = '';
+            } catch (err) {
+                console.error(err);
+                alert("حصل خطأ أثناء إرسال الطلب، تأكد من الإنترنت وحاول تاني.");
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "تأكيد الطلب 🚀";
+            }
+        };
+
+        window.accessAdminPanel = function() {
+            const pass = prompt("أدخل كلمة مرور الأدمن 🔐:");
+            if (pass === "1234") {
+                const panel = document.getElementById('adminPanel');
+                panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+            } else if (pass !== null) {
+                alert("كلمة المرور غير صحيحة ❌");
+            }
+        };
+
+        window.savePricesToFirebase = async function() {
+            const priceInputs = document.querySelectorAll('.admin-panel input[type="number"]');
+            let pricesData = {};
+            priceInputs.forEach(input => {
+                const key = input.id.replace('p_', '');
+                pricesData[key] = Number(input.value);
+            });
+
+            try {
+                await setDoc(doc(db, "sasa_config", "prices"), pricesData);
+                alert("تم تحديث وحفظ الأسعار سحابياً بنجاح 💾✨");
+            } catch (err) {
+                console.error(err);
+                alert("فشل حفظ الأسعار سحابياً.");
+            }
+        };
+
+        // Realtime Listeners
+        onSnapshot(collection(db, "sasa_orders"), (snapshot) => {
+            const totalOrders = snapshot.size;
+            document.getElementById('totalOrdersCount').textContent = totalOrders;
+
+            let userHtml = "";
+            let adminHtml = "";
+
+            if (totalOrders === 0) {
+                userHtml = '<p style="color: #777; text-align: center;">لا توجد طلبات سابقة حتى الآن.</p>';
+                adminHtml = '<p style="color: #777; text-align: center;">لا توجد طلبات عملاء حالياً.</p>';
+            } else {
+                snapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const id = docSnap.id;
+                    let badgeClass = "badge-pending";
+                    if (data.status.includes("مقبول")) badgeClass = "badge-approved";
+                    if (data.status.includes("مرفوض")) badgeClass = "badge-rejected";
+
+                    userHtml += `
+                        <div class="order-track-card">
+                            <div><strong>${data.serviceName}</strong><br><small style="color:#777;">الهدف: ${data.customerTarget}</small></div>
+                            <div><span class="${badgeClass}">${data.status}</span></div>
+                        </div>
+                    `;
+
+                    adminHtml += `
+                        <div class="admin-order-card">
+                            <p><strong>الخدمة:</strong> ${data.serviceName} (${data.servicePrice} ج.م)</p>
+                            <p><strong>العميل:</strong> ${data.customerName} - <strong>رقم:</strong> ${data.customerPhone}</p>
+                            <p><strong>الهدف/اليوزر:</strong> ${data.customerTarget}</p>
+                            <p><strong>الحالة:</strong> <span class="${badgeClass}">${data.status}</span></p>
+                            ${data.receiptImage ? `<a href="${data.receiptImage}" target="_blank" style="color:#3498db; display:inline-block; margin: 5px 0;">عرض الإيصال المرفوع 📷</a>` : ''}
+                            <div style="margin-top: 8px; display: flex; gap: 8px;">
+                                <button class="btn-accept" onclick="updateOrderStatus('${id}', 'مقبول ✅')">قبول وتفيذ</button>
+                                <button class="btn-reject" onclick="updateOrderStatus('${id}', 'مرفوض ❌')">رفض الطلب</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            document.getElementById('userOrdersList').innerHTML = userHtml;
+            document.getElementById('adminOrdersList').innerHTML = adminHtml;
+        });
+
+        window.updateOrderStatus = async function(id, newStatus) {
+            try {
+                await updateDoc(doc(db, "sasa_orders", id), { status: newStatus });
+                alert("تم تحديث حالة الطلب بنجاح!");
+            } catch (err) {
+                console.error(err);
+                alert("حدث خطأ أثناء تحديث الحالة.");
+            }
+        };
+
+        // Realtime Prices Sync
+        onSnapshot(doc(db, "sasa_config", "prices"), (docSnap) => {
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                for (const [key, val] of Object.entries(data)) {
+                    const priceSpan = document.querySelector(`.price-val[data-id="${key}"]`);
+                    if (priceSpan) priceSpan.textContent = val;
+
+                    const inputField = document.getElementById(`p_${key}`);
+                    if (inputField) inputField.value = val;
+                }
+            }
+        });
     </script>
 </body>
 </html>
