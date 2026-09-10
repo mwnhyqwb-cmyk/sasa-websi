@@ -3,553 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="Q7BvtF-zWCJq4FDip-TlZ_6uyzhn_HXFFmukvYEWW8w" />
-    <meta name="description" content="متجر صاصا التاريخ - أفضل خدمات الشبكات، السجل المدني، رشق المتابعين، وشحن الألعاب والباقات سحابياً وبأفضل الأسعار">
     <title>متجر صاصا التاريخ 🧙</title>
     <style>
         :root {
             --bg-color: #f4f6f9;
             --text-color: #333;
             --card-bg: #fff;
-            --border-color: #ddd;
-            --header-bg: linear-gradient(135deg, #e50914, #1e3c72);
-            --sub-card: #f9fbfd;
-            --input-bg: #fff;
-            --input-text: #333;
+            --primary-color: #6366f1;
+            --primary-hover: #4f46e5;
+            --border-color: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         [data-theme="dark"] {
-            --bg-color: #121212;
-            --text-color: #e0e0e0;
-            --card-bg: #1e1e1e;
-            --border-color: #333;
-            --header-bg: linear-gradient(135deg, #b20710, #0f1f3d);
-            --sub-card: #252525;
-            --input-bg: #2d2d2d;
-            --input-text: #fff;
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --card-bg: #1e293b;
+            --primary-color: #818cf8;
+            --primary-hover: #6366f1;
+            --border-color: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: background-color 0.3s, color 0.3s; }
-        body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; }
-        header { background: var(--header-bg); color: white; padding: 30px 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: relative; }
-        
-        .theme-toggle-btn {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: white;
-            padding: 8px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: bold;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 5px;
-        }
-        .theme-toggle-btn:hover { background: rgba(255, 255, 255, 0.3); }
-
-        .container { max-width: 900px; margin: 20px auto; padding: 0 20px; }
-        
-        .stats-container { display: flex; gap: 15px; margin-bottom: 25px; }
-        .stat-card { flex: 1; background: var(--card-bg); padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid var(--border-color); }
-        .stat-number { font-size: 1.8rem; font-weight: bold; color: #1e3c72; }
-        [data-theme="dark"] .stat-number { color: #64b5f6; }
-        .stat-label { font-size: 0.9rem; color: #666; }
-        [data-theme="dark"] .stat-label { color: #aaa; }
-
-        .category-btn { width: 100%; background: #1e3c72; color: white; border: none; padding: 15px; text-align: right; font-size: 1.2rem; font-weight: bold; border-radius: 8px; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .category-content { display: none; margin-bottom: 20px; padding: 10px; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--border-color); }
-        .service-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid var(--border-color); }
-        .service-item:last-child { border-bottom: none; }
-        
-        .badge-open { background: #2ecc71; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; }
-        .badge-closed { background: #e74c3c; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; }
-        .badge-pending { background: #f39c12; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; }
-        .badge-accepted { background: #2ecc71; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; }
-        .badge-rejected { background: #e74c3c; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; }
-
-        .btn-order { background: #e50914; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
-        .btn-disabled { background: #ccc; color: #666; border: none; padding: 6px 12px; border-radius: 4px; cursor: not-allowed; font-size: 0.9rem; }
-        [data-theme="dark"] .btn-disabled { background: #444; color: #888; }
-
-        .section-box { background: var(--card-bg); padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 25px; border: 1px solid var(--border-color); }
-        .section-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; color: #1e3c72; border-bottom: 2px solid #1e3c72; padding-bottom: 5px; }
-        [data-theme="dark"] .section-title { color: #64b5f6; border-color: #64b5f6; }
-        
-        .order-track-card { background: var(--sub-card); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-
-        .fancy-divider, .chill-divider, .payments-divider, .fake-divider {
-            height: 4px; width: 100%; border-radius: 4px; margin: 35px 0 25px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .fancy-divider { background: linear-gradient(90deg, #ff8a00, #e52e71, #9b51e0, #2f80ed); }
-        .chill-divider { background: linear-gradient(90deg, #00b09b, #96c93d, #25D366, #128C7E); }
-        .payments-divider { background: linear-gradient(90deg, #f12711, #f5af19, #00c6ff, #0072ff); }
-        .fake-divider { background: linear-gradient(90deg, #8e44ad, #ff6b6b, #1abc9c, #3498db); }
-
-        .admin-trigger { background: #34495e; color: white; padding: 12px; text-align: center; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 20px; }
-        .admin-panel { display: none; background: var(--card-bg); padding: 20px; border-radius: 8px; border: 2px solid #34495e; margin-top: 10px; margin-bottom: 30px; }
-
-        .admin-panel input {
-            background-color: var(--input-bg);
-            color: var(--input-text);
+            margin-bottom: 20px;
+            background: var(--card-bg);
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
             border: 1px solid var(--border-color);
-            padding: 5px;
-            border-radius: 4px;
         }
 
-        .admin-orders-list { margin-top: 15px; }
-        .admin-order-card { background: var(--sub-card); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .admin-actions { display: flex; gap: 5px; }
-        .btn-accept { background: #2ecc71; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
-        .btn-reject { background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
-        .btn-delete { background: #333; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
-        [data-theme="dark"] .btn-delete { background: #555; }
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; overflow-y: auto; padding: 20px; }
-        .modal-box { background: var(--card-bg); color: var(--text-color); padding: 25px; border-radius: 10px; width: 90%; max-width: 450px; margin: auto; border: 1px solid var(--border-color); }
-        .cash-info { background: var(--sub-card); border: 1px solid var(--border-color); padding: 12px; border-radius: 6px; margin-bottom: 12px; font-size: 0.95rem; text-align: center; }
-        .cash-number { font-size: 1.2rem; font-weight: bold; color: #e50914; direction: ltr; display: inline-block; margin: 5px 0; background: var(--card-bg); padding: 4px 10px; border-radius: 5px; border: 1px dashed #e50914; }
-        .receipt-preview { max-width: 100%; max-height: 120px; margin-top: 5px; border-radius: 4px; display: none; border: 1px solid var(--border-color); }
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-color);
+            color: var(--text-color);
+            box-sizing: border-box;
+        }
+
+        .services-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .service-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body data-theme="light">
 
-    <header>
-        <button class="theme-toggle-btn" onclick="toggleThemeGlobal()" id="themeBtn">🌙 دارك مود</button>
-        <h1>متجر صاصا التاريخ 🧙</h1>
-    </header>
-
     <div class="container">
-        <div class="stats-container">
-            <div class="stat-card">
-                <div class="stat-number" id="totalOrdersCount">0</div>
-                <div class="stat-label">👥 إجمالي طلبات المتجر</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="onlineUsersCount">1</div>
-                <div class="stat-label">🟢 متصل الآن بالخادم</div>
-            </div>
-        </div>
+        <header>
+            <h1>متجر صاصا التاريخ 🧙</h1>
+            <button onclick="toggleTheme()">تبديل الوضع 🌓</button>
+        </header>
 
-        <div class="section-box">
-            <div class="section-title">📌 متابعة حالة طلباتي (متزامن لحظياً)</div>
-            <div id="userOrdersList">
-                <p style="color: #777; text-align: center;">لا توجد طلبات سابقة حتى الآن.</p>
-            </div>
-        </div>
-
-        <!-- Categories -->
-        <button class="category-btn" onclick="toggleCategory('vodaCategory')"><span>خدمات فودافون 💙✨</span> <span>▼</span></button>
-        <div class="category-content" id="vodaCategory">
-            <div class="service-item"><div><strong>سحب بيانات فودافون</strong> - <span class="price-val" data-id="v1">60</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('سحب بيانات فودافون', 60)">طلب</button></div>
-            <div class="service-item"><div><strong>بيانات مميز فودافون</strong> - <span class="price-val" data-id="v2">110</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بيانات مميز فودافون', 110)">طلب</button></div>
-            <div class="service-item"><div><strong>بحث قومي فودافون</strong> - <span class="price-val" data-id="v3">80</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بحث قومي فودافون', 80)">طلب</button></div>
-        </div>
-
-        <button class="category-btn" onclick="toggleCategory('etiCategory')"><span>خدمات اتصالات 💙✨</span> <span>▼</span></button>
-        <div class="category-content" id="etiCategory">
-            <div class="service-item"><div><strong>سحب بيانات اتصالات</strong> - <span class="price-val" data-id="e1">50</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('سحب بيانات اتصالات', 50)">طلب</button></div>
-            <div class="service-item"><div><strong>بحث قومي اتصالات 🔍</strong> - <span class="price-val" data-id="e_search">0</span> ج.م <span class="badge-closed">مغلق ❌</span></div><button class="btn-disabled" disabled>مغلق</button></div>
-            <div class="service-item"><div><strong>بيانات مميز اتصالات 💎</strong> - <span class="price-val" data-id="e_vip">0</span> ج.م <span class="badge-closed">مغلق ❌</span></div><button class="btn-disabled" disabled>مغلق</button></div>
-        </div>
-
-        <button class="category-btn" onclick="toggleCategory('orangeCategory')"><span>خدمات اورنج 💙✨</span> <span>▼</span></button>
-        <div class="category-content" id="orangeCategory">
-            <div class="service-item"><div><strong>سحب بيانات اورنج</strong> - <span class="price-val" data-id="o1">30</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('سحب بيانات اورنج', 30)">طلب</button></div>
-        </div>
-
-        <button class="category-btn" onclick="toggleCategory('weCategory')"><span>خدمات وي 💙✨</span> <span>▼</span></button>
-        <div class="category-content" id="weCategory">
-            <div class="service-item"><div><strong>بطاقه من الرقم 🪪</strong> - <span class="price-val" data-id="w1">60</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بطاقه من الرقم 🪪', 60)">طلب</button></div>
-            <div class="service-item"><div><strong>بحث ارقام وي 🧐</strong> - <span class="price-val" data-id="w_search">60</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بحث ارقام وي 🧐', 60)">طلب</button></div>
-            <div class="service-item"><div><strong>بطاقه من رقم ارضي ☎️</strong> - <span class="price-val" data-id="w_landline">60</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بطاقه من رقم ارضي ☎️', 60)">طلب</button></div>
-        </div>
-
-        <button class="category-btn" onclick="toggleCategory('tamweenCategory')"><span>خدمات تموين 💙✨</span> <span>▼</span></button>
-        <div class="category-content" id="tamweenCategory">
-            <div class="service-item"><div><strong>سحب تموين 🌾</strong> - <span class="price-val" data-id="t1">50</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('سحب تموين 🌾', 50)">طلب</button></div>
-        </div>
-
-        <button class="category-btn" onclick="toggleCategory('civilCategory')"><span>خدمات سجل مدني 💙✨</span> <span>▼</span></button>
-        <div class="category-content" id="civilCategory">
-            <div class="service-item"><div><strong>قيد عادي</strong> - <span class="price-val" data-id="c_normal">470</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('قيد عادي', 470)">طلب</button></div>
-            <div class="service-item"><div><strong>مفصل</strong> - <span class="price-val" data-id="c_detailed">670</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('مفصل', 670)">طلب</button></div>
-            <div class="service-item"><div><strong>اسكرين بطاقة</strong> - <span class="price-val" data-id="c_screen">720</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('اسكرين بطاقة', 720)">طلب</button></div>
-            <div class="service-item"><div><strong>شهادة وفاة</strong> - <span class="price-val" data-id="c_death">620</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شهادة وفاة', 620)">طلب</button></div>
-            <div class="service-item"><div><strong>شهادة ميلاد</strong> - <span class="price-val" data-id="c_birth">370</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شهادة ميلاد', 370)">طلب</button></div>
-            <div class="service-item"><div><strong>شهادة جواز / طلاق</strong> - <span class="price-val" data-id="c_marriage">370</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شهادة جواز / طلاق', 370)">طلب</button></div>
-        </div>
-
-        <div class="fancy-divider"></div>
-
-        <button class="category-btn" style="background: linear-gradient(135deg, #8e44ad, #3498db);" onclick="toggleCategory('reshqCategory')"><span>خدمات الرشق 🎵 💙✨</span> <span>▼</span></button>
-        <div class="category-content" id="reshqCategory">
-            <div class="service-item"><div><strong>رشق متابعين تيك توك (1k) 🎵🚀</strong> - <span class="price-val" data-id="r_tiktok">150</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق متابعين تيك توك (1k) 🎵🚀', 150)">طلب</button></div>
-            <div class="service-item"><div><strong>رشق متابعين انستجرام [1k] ثابت ➕</strong> - <span class="price-val" data-id="r_insta">200</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق متابعين انستجرام [1k] ثابت ➕', 200)">طلب</button></div>
-            <div class="service-item"><div><strong>رشق مشاهدات تيك توك {1k}👁️</strong> - <span class="price-val" data-id="r_views">50</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق مشاهدات تيك توك {1k}👁️', 50)">طلب</button></div>
-            <div class="service-item"><div><strong>اكسبلور تيك توك [1k] 🦈</strong> - <span class="price-val" data-id="r_explore">130</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('اكسبلور تيك توك [1k] 🦈', 130)">طلب</button></div>
-            <div class="service-item"><div><strong>لايكات تيك توك أو انستجرام [1k] ♥️</strong> - <span class="price-val" data-id="r_likes">100</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('لايكات تيك توك أو انستجرام [1k] ♥️', 100)">طلب</button></div>
-            <div class="service-item"><div><strong>رشق متابعين قنوات واتساب {5k} 👥</strong> - <span class="price-val" data-id="r_whatsapp">200</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق متابعين قنوات واتساب {5k} 👥', 200)">طلب</button></div>
-            <div class="service-item"><div><strong>رشق تفاعل قناه واتساب [1k] 💕</strong> - <span class="price-val" data-id="r_wa_reaction">100</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق تفاعل قناه واتساب [1k] 💕', 100)">طلب</button></div>
-            <div class="service-item"><div><strong>تعليقات تيك توك 500 تعليق 💬</strong> - <span class="price-val" data-id="r_tt_comments">120</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('تعليقات تيك توك 500 تعليق 💬', 120)">طلب</button></div>
-            <div class="service-item"><div><strong>رشق جروبات / قنوات تليجرام [1k] 🛰️</strong> - <span class="price-val" data-id="r_telegram">200</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق جروبات / قنوات تليجرام [1k] 🛰️', 200)">طلب</button></div>
-            <div class="service-item"><div><strong>رشق متابعين + ليكات فيسبوك ((1k)) 🤩</strong> - <span class="price-val" data-id="r_fb">100</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق متابعين + ليكات فيسبوك ((1k)) 🤩', 100)">طلب</button></div>
-            <div class="service-item"><div><strong>250 متابع يوتيوب 💥</strong> - <span class="price-val" data-id="r_yt">500</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('250 متابع يوتيوب 💥', 500)">طلب</button></div>
-        </div>
-
-        <div class="chill-divider"></div>
-
-        <button class="category-btn" style="background: linear-gradient(135deg, #00b09b, #25D366);" onclick="toggleCategory('whatsappCategory')"><span>خدمات واتساب 🪀</span> <span>▼</span></button>
-        <div class="category-content" id="whatsappCategory">
-            <div class="service-item"><div><strong>حظر ارقام الواتساب 🚫</strong> - <span class="price-val" data-id="w_ban_num">100</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('حظر ارقام الواتساب 🚫', 100)">طلب</button></div>
-            <div class="service-item"><div><strong>فك حظر ارقام الواتساب ✔️</strong> - <span class="price-val" data-id="w_unban_num">150</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('فك حظر ارقام الواتساب ✔️', 150)">طلب</button></div>
-            <div class="service-item"><div><strong>بوت الاستوري 👀</strong> - <span class="price-val" data-id="w_story_bot">20</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بوت الاستوري 👀', 20)">طلب</button></div>
-            <div class="service-item"><div><strong>بوت الكراش 😝</strong> - <span class="price-val" data-id="w_crush_bot">40</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بوت الكراش 😝', 40)">طلب</button></div>
-        </div>
-
-        <div class="payments-divider"></div>
-
-        <button class="category-btn" style="background: linear-gradient(135deg, #f12711, #0072ff);" onclick="toggleCategory('paymentsCategory')"><span>قسم المدفوعات (شحن الألعاب والباقات) 💳✨</span> <span>▼</span></button>
-        <div class="category-content" id="paymentsCategory">
-            <div class="service-item"><div><strong>شحن جواهر فري فاير (100 جوهرة) 🎮🔥</strong> - <span class="price-val" data-id="pay_freefire">70</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شحن جواهر فري فاير (100 جوهرة) 🎮🔥', 70)">طلب</button></div>
-            <div class="service-item"><div><strong>شحن بويا باس (فري فاير) 🎫🔥</strong> - <span class="price-val" data-id="pay_booyah_pass">70</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شحن بويا باس (فري فاير) 🎫🔥', 70)">طلب</button></div>
-            <div class="service-item"><div><strong>شحن شدات ببجي (60 شدة) 🎯</strong> - <span class="price-val" data-id="pay_pubg">70</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شحن شدات ببجي (60 شدة) 🎯', 70)">طلب</button></div>
-            <div class="service-item"><div><strong>تجديد باقة النت الأرضي (WE) 🌐</strong> - <span class="price-val" data-id="pay_we_internet">330</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('تجديد باقة النت الأرضي (WE) 🌐', 330)">طلب</button></div>
-            <div class="service-item"><div><strong>شحن باقة الموبايل (ميجابايتس/تكت) 📱</strong> - <span class="price-val" data-id="pay_mobile_bundle">35</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شحن باقة الموبايل (ميجابايتس/تكت) 📱', 35)">طلب</button></div>
-            <div class="service-item"><div><strong>عرض وي (10 جيجا + 1000 دقيقة لكل الشبكات) 🎁🌐</strong> - <span class="price-val" data-id="pay_we_offer">220</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('عرض وي (10 جيجا + 1000 دقيقة لكل الشبكات) 🎁🌐', 220)">طلب</button></div>
-        </div>
-
-        <div class="fake-divider"></div>
-
-        <button class="category-btn" style="background: linear-gradient(135deg, #1abc9c, #2c3e50);" onclick="toggleCategory('fakeCategory')"><span>ارقام فيك واتساب / تليجرام 🛡️📲</span> <span>▼</span></button>
-        <div class="category-content" id="fakeCategory">
-            <div class="service-item"><div><strong>رقم فيك واتساب مفعل 🌐</strong> - <span class="price-val" data-id="fake_wa">60</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رقم فيك واتساب مفعل 🌐', 60)">طلب</button></div>
-            <div class="service-item"><div><strong>رقم فيك تليجرام مفعل 🛰️</strong> - <span class="price-val" data-id="fake_tg">60</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رقم فيك تليجرام مفعل 🛰️', 60)">طلب</button></div>
-        </div>
-
-        <div class="admin-trigger" onclick="accessAdminPanel()">⚙️ إعدادات لوحة تحكم الأدمن (قاعدة البيانات) 🔐</div>
-        
-        <div class="admin-panel" id="adminPanel">
-            <h3>🔑 لوحة تحكم الأدمن</h3>
-            
-            <div style="margin-top: 15px; background: var(--card-bg); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px;">
-                <h4 style="color: #1e3c72; margin-bottom: 10px;">📋 إدارة وإيرادات الطلبات:</h4>
-                <div id="adminOrdersContainer" class="admin-orders-list">
-                    <p style="color: #777; text-align: center;">لا توجد طلبات واردة حالياً.</p>
+        <div class="card">
+            <h2>قائمة الخدمات</h2>
+            <div class="services-list" id="servicesList">
+                <div class="service-item">
+                    <span>شحن جواهر فري فاير</span>
+                    <strong>100 جنيه</strong>
+                </div>
+                <div class="service-item">
+                    <span>باقة إنترنت WE أرضي</span>
+                    <strong>150 جنيه</strong>
                 </div>
             </div>
+        </div>
 
-            <hr style="margin: 20px 0;">
-            <h4 style="color: #1e3c72; margin-bottom: 8px;">💰 الأسعار الحالية:</h4>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;">
-                <div><label>سحب فودافون:</label><input type="number" id="p_v1" value="60" style="width:100%; padding:5px;"></div>
-                <div><label>فودافون مميز:</label><input type="number" id="p_v2" value="110" style="width:100%; padding:5px;"></div>
-                <div><label>بحث قومي فودافون:</label><input type="number" id="p_v3" value="80" style="width:100%; padding:5px;"></div>
-                <div><label>سحب اتصالات:</label><input type="number" id="p_e1" value="50" style="width:100%; padding:5px;"></div>
-                <div><label>سحب اورنج:</label><input type="number" id="p_o1" value="30" style="width:100%; padding:5px;"></div>
-                <div><label>بطاقه من الرقم:</label><input type="number" id="p_w1" value="60" style="width:100%; padding:5px;"></div>
-                <div><label>بحث ارقام وي:</label><input type="number" id="p_w_search" value="60" style="width:100%; padding:5px;"></div>
-                <div><label>بطاقه من رقم ارضي:</label><input type="number" id="p_w_landline" value="60" style="width:100%; padding:5px;"></div>
-                <div><label>سحب تموين:</label><input type="number" id="p_t1" value="50" style="width:100%; padding:5px;"></div>
-                <div><label>قيد عادي:</label><input type="number" id="p_c_normal" value="470" style="width:100%; padding:5px;"></div>
-                <div><label>مفصل:</label><input type="number" id="p_c_detailed" value="670" style="width:100%; padding:5px;"></div>
-                <div><label>اسكرين بطاقة:</label><input type="number" id="p_c_screen" value="720" style="width:100%; padding:5px;"></div>
-                <div><label>شهادة وفاة:</label><input type="number" id="p_c_death" value="620" style="width:100%; padding:5px;"></div>
-                <div><label>شهادة ميلاد:</label><input type="number" id="p_c_birth" value="370" style="width:100%; padding:5px;"></div>
-                <div><label>شهادة جواز/طلاق:</label><input type="number" id="p_c_marriage" value="370" style="width:100%; padding:5px;"></div>
-                <div><label>رشق تيك توك:</label><input type="number" id="p_r_tiktok" value="150" style="width:100%; padding:5px;"></div>
-                <div><label>رشق انستجرام ثابت:</label><input type="number" id="p_r_insta" value="200" style="width:100%; padding:5px;"></div>
-                <div><label>رشق مشاهدات تيك توك:</label><input type="number" id="p_r_views" value="50" style="width:100%; padding:5px;"></div>
-                <div><label>اكسبلور تيك توك:</label><input type="number" id="p_r_explore" value="130" style="width:100%; padding:5px;"></div>
-                <div><label>لايكات تيك توك/انستا:</label><input type="number" id="p_r_likes" value="100" style="width:100%; padding:5px;"></div>
-                <div><label>متابعين واتساب:</label><input type="number" id="p_r_whatsapp" value="200" style="width:100%; padding:5px;"></div>
-                <div><label>تفاعل قناة واتساب:</label><input type="number" id="p_r_wa_reaction" value="100" style="width:100%; padding:5px;"></div>
-                <div><label>تعليقات تيك توك:</label><input type="number" id="p_r_tt_comments" value="120" style="width:100%; padding:5px;"></div>
-                <div><label>رشق تليجرام:</label><input type="number" id="p_r_telegram" value="200" style="width:100%; padding:5px;"></div>
-                <div><label>رشق فيسبوك (1k):</label><input type="number" id="p_r_fb" value="100" style="width:100%; padding:5px;"></div>
-                <div><label>متابعين يوتيوب (250):</label><input type="number" id="p_r_yt" value="500" style="width:100%; padding:5px;"></div>
-                <div><label>حظر ارقام الواتساب:</label><input type="number" id="p_w_ban_num" value="100" style="width:100%; padding:5px;"></div>
-                <div><label>فك حظر ارقام الواتساب:</label><input type="number" id="p_w_unban_num" value="150" style="width:100%; padding:5px;"></div>
-                <div><label>بوت الاستوري:</label><input type="number" id="p_w_story_bot" value="20" style="width:100%; padding:5px;"></div>
-                <div><label>بوت الكراش:</label><input type="number" id="p_w_crush_bot" value="40" style="width:100%; padding:5px;"></div>
-                <div><label>جواهر فري فاير:</label><input type="number" id="p_pay_freefire" value="70" style="width:100%; padding:5px;"></div>
-                <div><label>بويا باس:</label><input type="number" id="p_pay_booyah_pass" value="70" style="width:100%; padding:5px;"></div>
-                <div><label>شدات ببجي:</label><input type="number" id="p_pay_pubg" value="70" style="width:100%; padding:5px;"></div>
-                <div><label>تجديد باقة النت:</label><input type="number" id="p_pay_we_internet" value="330" style="width:100%; padding:5px;"></div>
-                <div><label>باقة الموبايل:</label><input type="number" id="p_pay_mobile_bundle" value="35" style="width:100%; padding:5px;"></div>
-                <div><label>عرض وي (10ج + 1000د):</label><input type="number" id="p_pay_we_offer" value="220" style="width:100%; padding:5px;"></div>
-                <div><label>رقم فيك واتساب:</label><input type="number" id="p_fake_wa" value="60" style="width:100%; padding:5px;"></div>
-                <div><label>رقم فيك تليجرام:</label><input type="number" id="p_fake_tg" value="60" style="width:100%; padding:5px;"></div>
+        <div class="card">
+            <h2>طلب خدمة</h2>
+            <div class="form-group">
+                <label>اختر الخدمة</label>
+                <select id="serviceSelect">
+                    <option value="فري فاير">شحن جواهر فري فاير</option>
+                    <option value="إنترنت WE">باقة إنترنت WE أرضي</option>
+                </select>
             </div>
-            <button onclick="savePricesLocally()" class="btn-order" style="width:100%; margin-bottom:15px; background:#1e3c72;">حفظ الأسعار محلياً 💾</button>
+            <div class="form-group">
+                <label>رقم الحساب / الآيدي / التفاصيل</label>
+                <input type="text" id="targetInfo" placeholder="أدخل البيانات هنا...">
+            </div>
+            <button onclick="sendOrder()">تأكيد وإرسال لتليجرام 🚀</button>
         </div>
     </div>
 
-    <!-- Order Modal -->
-    <div class="modal" id="orderModal">
-        <div class="modal-content modal-box">
-            <h3 id="modalServiceName"></h3>
-            <p style="font-weight: bold; color: #e50914; margin-bottom: 10px; font-size: 1.1rem;">المبلغ المطلوب: <span id="modalServicePrice"></span> ج.م</p>
-            
-            <div class="cash-info">
-                💸 <strong>خطوات الدفع والتأكيد:</strong><br>
-                1. تحويل المبلغ عبر الكاش إلى الرقم:<br>
-                <span class="cash-number">01227252115</span><br>
-                2. املأ بياناتك وارفع سكرين التحويل.
-            </div>
-
-            <form onsubmit="submitOrderToTelegram(event)">
-                <input type="text" id="custName" placeholder="اسمك بالكامل" required style="width: 100%; margin-bottom: 8px; padding: 8px; background: var(--input-bg); color: var(--input-text); border: 1px solid var(--border-color); border-radius: 4px;">
-                <input type="tel" id="custPhone" placeholder="رقم الواتساب الخاص بك" required style="width: 100%; margin-bottom: 8px; padding: 8px; background: var(--input-bg); color: var(--input-text); border: 1px solid var(--border-color); border-radius: 4px;">
-                <input type="text" id="custTarget" placeholder="الرقم المستهدف / يوزر الحساب / الID" required style="width: 100%; margin-bottom: 8px; padding: 8px; background: var(--input-bg); color: var(--input-text); border: 1px solid var(--border-color); border-radius: 4px;">
-                
-                <label style="font-size: 0.85rem; color: #777; display: block; margin-bottom: 3px;">📷 ارفع سكرين شوت التحويل:</label>
-                <input type="file" id="custReceipt" accept="image/*" onchange="previewReceiptImage(event)" required style="width: 100%; margin-bottom: 8px; padding: 5px; background: var(--input-bg); color: var(--input-text); border: 1px solid var(--border-color); border-radius: 4px;">
-                <img id="receiptPreview" class="receipt-preview" alt="معاينة الإيصال">
-
-                <button type="submit" class="btn-order" style="width: 100%; padding: 10px; margin-top: 8px;" id="submitBtn">تأكيد وإرسال لتليجرام 🚀</button>
-            </form>
-            <button onclick="closeModal()" style="width: 100%; margin-top: 8px; padding: 6px; background: #777; color: white; border: none; border-radius: 4px;">إلغاء</button>
-        </div>
-    </div>
-
-    <!-- Application Script -->
     <script>
-        const TELEGRAM_BOT_TOKEN = "7547600742:AAFAaI9rJ_Z9V7J1Yt3U9s78X9W2V1U0Z3Q"; 
-        const TELEGRAM_CHAT_ID = "6123456789"; 
+        // إعدادات تليجرام (قم بوضع المعرف الخاص بك هنا بدلاً من النص الفارغ أو الوهمي)
+        const TELEGRAM_BOT_TOKEN = "YOUR_BOT_TOKEN_HERE"; 
+        const TELEGRAM_CHAT_ID = "YOUR_CHAT_ID_HERE"; // تم إكمال المتغير هنا لتجنب خطأ التوقف
 
-        let currentServiceName = "";
-        let currentServicePrice = 0;
-        let base64Receipt = "";
-
-        function toggleThemeGlobal() {
+        function toggleTheme() {
             const body = document.body;
-            const btn = document.getElementById('themeBtn');
-            if (body.getAttribute('data-theme') === 'light') {
-                body.setAttribute('data-theme', 'dark');
-                btn.textContent = '☀️ فواتح مود';
-                localStorage.setItem('sasa_theme', 'dark');
-            } else {
-                body.setAttribute('data-theme', 'light');
-                btn.textContent = '🌙 دارك مود';
-                localStorage.setItem('sasa_theme', 'light');
-            }
+            const currentTheme = body.getAttribute("data-theme");
+            body.setAttribute("data-theme", currentTheme === "light" ? "dark" : "light");
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('sasa_theme');
-            if (savedTheme === 'dark') {
-                document.body.setAttribute('data-theme', 'dark');
-                document.getElementById('themeBtn').textContent = '☀️ فواتح مود';
-            }
+        function sendOrder() {
+            const service = document.getElementById('serviceSelect').value;
+            const target = document.getElementById('targetInfo').value;
 
-            const savedPrices = JSON.parse(localStorage.getItem('sasa_prices') || '{}');
-            for (const [key, val] of Object.entries(savedPrices)) {
-                const priceSpan = document.querySelector(`.price-val[data-id="${key}"]`);
-                if (priceSpan) priceSpan.textContent = val;
-
-                const inputField = document.getElementById(`p_${key}`);
-                if (inputField) inputField.value = val;
-            }
-
-            renderOrdersUI();
-        });
-
-        function toggleCategory(id) {
-            const content = document.getElementById(id);
-            content.style.display = content.style.display === 'block' ? 'none' : 'block';
-        }
-
-        function openOrderModal(name, price) {
-            currentServiceName = name;
-            currentServicePrice = price;
-            document.getElementById('modalServiceName').textContent = name;
-            document.getElementById('modalServicePrice').textContent = price;
-            document.getElementById('orderModal').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('orderModal').style.display = 'none';
-            document.getElementById('custReceipt').value = '';
-            document.getElementById('receiptPreview').style.display = 'none';
-            base64Receipt = "";
-        }
-
-        function previewReceiptImage(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    base64Receipt = e.target.result;
-                    const preview = document.getElementById('receiptPreview');
-                    preview.src = base64Receipt;
-                    preview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function getStoredOrders() {
-            return JSON.parse(localStorage.getItem('sasa_orders_list') || '[]');
-        }
-
-        function saveStoredOrders(orders) {
-            localStorage.setItem('sasa_orders_list', JSON.stringify(orders));
-            renderOrdersUI();
-        }
-
-        function renderOrdersUI() {
-            const orders = getStoredOrders();
-            const userOrdersList = document.getElementById('userOrdersList');
-            const adminOrdersContainer = document.getElementById('adminOrdersContainer');
-            const totalOrdersCount = document.getElementById('totalOrdersCount');
-
-            totalOrdersCount.textContent = orders.length;
-
-            if (orders.length === 0) {
-                userOrdersList.innerHTML = `<p style="color: #777; text-align: center;">لا توجد طلبات سابقة حتى الآن.</p>`;
-                adminOrdersContainer.innerHTML = `<p style="color: #777; text-align: center;">لا توجد طلبات واردة حالياً.</p>`;
+            if (!target) {
+                alert("يرجى إدخال بيانات الحساب أو الآيدي المطلوب!");
                 return;
             }
 
-            let userHtml = '';
-            let adminHtml = '';
-
-            orders.forEach((ord, index) => {
-                let badgeClass = 'badge-pending';
-                let badgeText = 'قيد المراجعة ⏳';
-                if (ord.status === 'accepted') {
-                    badgeClass = 'badge-accepted';
-                    badgeText = 'تم التنفيذ ✅';
-                } else if (ord.status === 'rejected') {
-                    badgeClass = 'badge-rejected';
-                    badgeText = 'مرفوض ❌';
-                }
-
-                userHtml += `
-                    <div class="order-track-card">
-                        <div><strong>${ord.name}</strong><br><small style="color:#777;">الهدف: ${ord.target} | السعر: ${ord.price} ج.م</small></div>
-                        <div><span class="${badgeClass}">${badgeText}</span></div>
-                    </div>
-                `;
-
-                adminHtml += `
-                    <div class="admin-order-card">
-                        <div>
-                            <strong>${ord.name}</strong> (${ord.price} ج.م)<br>
-                            <small style="color:#777;">العميل: ${ord.custName} | تليفون: ${ord.custPhone} | الهدف: ${ord.target}</small><br>
-                            <span class="${badgeClass}">${badgeText}</span>
-                        </div>
-                        <div class="admin-actions">
-                            <button class="btn-accept" onclick="updateOrderStatus(${index}, 'accepted')">قبول</button>
-                            <button class="btn-reject" onclick="updateOrderStatus(${index}, 'rejected')">رفض</button>
-                            <button class="btn-delete" onclick="deleteOrder(${index})">حذف 🗑️</button>
-                        </div>
-                    </div>
-                `;
-            });
-
-            userOrdersList.innerHTML = userHtml;
-            adminOrdersContainer.innerHTML = adminHtml;
-        }
-
-        function updateOrderStatus(index, newStatus) {
-            let orders = getStoredOrders();
-            if (orders[index]) {
-                orders[index].status = newStatus;
-                saveStoredOrders(orders);
+            const message = `طلب جديد من متجر صاصا التاريخ 🧙\n\n الخدمة: ${service}\n البيانات: ${target}`;
+            
+            if (TELEGRAM_BOT_TOKEN === "YOUR_BOT_TOKEN_HERE" || TELEGRAM_CHAT_ID === "YOUR_CHAT_ID_HERE") {
+                alert("يرجى ضبط بيانات بوت تليجرام (Token و Chat ID) في الكود البرمجي أولاً لعمل الإرسال بنجاح.");
+                return;
             }
-        }
 
-        function deleteOrder(index) {
-            if (confirm("هل أنت متأكد من حذف هذا الطلب نهائياً؟")) {
-                let orders = getStoredOrders();
-                orders.splice(index, 1);
-                saveStoredOrders(orders);
-            }
-        }
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(message)}`;
 
-        async function submitOrderToTelegram(e) {
-            e.preventDefault();
-            const name = document.getElementById('custName').value;
-            const phone = document.getElementById('custPhone').value;
-            const target = document.getElementById('custTarget').value;
-            const btn = document.getElementById('submitBtn');
-
-            btn.disabled = true;
-            btn.textContent = "جاري إرسال الطلب لتليجرام... ⏳";
-
-            const message = `🚨 طلب جديد في متجر صاصا!\n\n` +
-                            `📌 الخدمة: ${currentServiceName}\n` +
-                            `💰 السعر: ${currentServicePrice} ج.م\n` +
-                            `👤 اسم العميل: ${name}\n` +
-                            `📞 رقم الواتساب: ${phone}\n` +
-                            `🎯 الهدف/اليوزر: ${target}`;
-
-            try {
-                const textResponse = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: TELEGRAM_CHAT_ID,
-                        text: message
-                    })
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        alert("تم إرسال طلبك بنجاح!");
+                        document.getElementById('targetInfo').value = '';
+                    } else {
+                        alert("حدث خطأ أثناء الإرسال، تأكد من صحة بيانات البوت.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("تعذر الاتصال بالخادم.");
                 });
-
-                if (textResponse.ok) {
-                    let orders = getStoredOrders();
-                    orders.unshift({
-                        name: currentServiceName,
-                        price: currentServicePrice,
-                        custName: name,
-                        custPhone: phone,
-                        target: target,
-                        status: 'pending'
-                    });
-                    saveStoredOrders(orders);
-
-                    alert("تم إرسال طلبك بنجاح يا صاصا على التليجرام! هنراجعه ونفذه في أسرع وقت 🚀");
-                    closeModal();
-                    document.getElementById('custName').value = '';
-                    document.getElementById('custPhone').value = '';
-                    document.getElementById('custTarget').value = '';
-                } else {
-                    alert("تعذر إرسال الطلب لتليجرام، تأكد من التوكن والشات آي دي.");
-                }
-            } catch (err) {
-                console.error(err);
-                alert("حصل خطأ أثناء إرسال الطلب، تأكد من الإنترنت وحاول تاني.");
-            } finally {
-                btn.disabled = false;
-                btn.textContent = "تأكيد وإرسال لتليجرام 🚀";
-            }
-        }
-
-        function accessAdminPanel() {
-            const pass = prompt("أدخل كلمة مرور الأدمن 🔐:");
-            if (pass === "sasailmoseba1") {
-                const panel = document.getElementById('adminPanel');
-                panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
-            } else if (pass !== null) {
-                alert("كلمة المرور غير صحيحة ❌");
-            }
-        }
-
-        function savePricesLocally() {
-            const priceInputs = document.querySelectorAll('.admin-panel input[type="number"]');
-            let pricesData = {};
-            priceInputs.forEach(input => {
-                const key = input.id.replace('p_', '');
-                pricesData[key] = Number(input.value);
-                const priceSpan = document.querySelector(`.price-val[data-id="${key}"]`);
-                if (priceSpan) priceSpan.textContent = input.value;
-            });
-
-            localStorage.setItem('sasa_prices', JSON.stringify(pricesData));
-            alert("تم حفظ وتحديث الأسعار بنجاح 💾✨");
         }
     </script>
 </body>
