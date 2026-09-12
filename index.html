@@ -220,6 +220,16 @@
 
         <div class="payments-divider"></div>
 
+        <!-- قسم الأرقام الوهمية واتساب / تليجرام -->
+        <button class="category-btn" style="background: linear-gradient(135deg, #25D366, #0088cc);" onclick="toggleCategory('fakeNumbersCategory')"><span>قسم الأرقام الوهمية واتساب / تليجرام 🔢</span> <span>▼</span></button>
+        <div class="category-content" id="fakeNumbersCategory">
+            <div class="service-item"><div><strong>رقم وهمي واتساب (تفعيل مفعل) 🪀</strong> - <span class="price-val" data-id="fn_whatsapp">60</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رقم وهمي واتساب (تفعيل مفعل) 🪀', 60)">طلب</button></div>
+            <div class="service-item"><div><strong>رقم وهمي تليجرام 🛰️</strong> - <span class="price-val" data-id="fn_telegram">60</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رقم وهمي تليجرام 🛰️', 60)">طلب</button></div>
+            <div class="service-item"><div><strong>رقم وهمي دائم (واتساب أو تليجرام) ⭐</strong> - <span class="price-val" data-id="fn_permanent">60</span> ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رقم وهمي دائم (واتساب أو تليجرام) ⭐', 60)">طلب</button></div>
+        </div>
+
+        <div class="payments-divider"></div>
+
         <div class="admin-trigger" onclick="accessAdminPanel()">⚙️ إعدادات لوحة تحكم الأدمن (قاعدة البيانات) 🔐</div>
         
         <div class="admin-panel" id="adminPanel">
@@ -264,6 +274,9 @@
                 <div><label>تجديد باقة النت:</label><input type="number" id="p_pay_we_internet" value="330" style="width:100%; padding:5px;"></div>
                 <div><label>باقة الموبايل:</label><input type="number" id="p_pay_mobile_bundle" value="35" style="width:100%; padding:5px;"></div>
                 <div><label>عرض وي (10ج + 1000د):</label><input type="number" id="p_pay_we_offer" value="220" style="width:100%; padding:5px;"></div>
+                <div><label>رقم وهمي واتساب:</label><input type="number" id="p_fn_whatsapp" value="60" style="width:100%; padding:5px;"></div>
+                <div><label>رقم وهمي تليجرام:</label><input type="number" id="p_fn_telegram" value="60" style="width:100%; padding:5px;"></div>
+                <div><label>رقم وهمي دائم:</label><input type="number" id="p_fn_permanent" value="60" style="width:100%; padding:5px;"></div>
             </div>
             <button onclick="savePricesToFirebase()" class="btn-order" style="width:100%; margin-bottom:15px; background:#1e3c72;">حفظ وتحديث الأسعار سحابياً 💾</button>
 
@@ -458,7 +471,7 @@
 
         function gatherPricesData() {
             const pricesData = {};
-            ['v1', 'v2', 'v3', 'e1', 'e_search', 'e_vip', 'o1', 'w1', 'w_search', 'w_landline', 't1', 'c_normal', 'c_detailed', 'c_screen', 'c_death', 'c_birth', 'c_marriage', 'r_tiktok', 'r_insta', 'r_views', 'r_explore', 'r_likes', 'r_whatsapp', 'r_tt_comments', 'r_telegram', 'r_fb', 'r_yt', 'w_ban_num', 'w_unban_num', 'w_story_bot', 'w_crush_bot', 'pay_freefire', 'pay_booyah_pass', 'pay_pubg', 'pay_we_internet', 'pay_mobile_bundle', 'pay_we_offer'].forEach(id => {
+            ['v1', 'v2', 'v3', 'e1', 'e_search', 'e_vip', 'o1', 'w1', 'w_search', 'w_landline', 't1', 'c_normal', 'c_detailed', 'c_screen', 'c_death', 'c_birth', 'c_marriage', 'r_tiktok', 'r_insta', 'r_views', 'r_explore', 'r_likes', 'r_whatsapp', 'r_tt_comments', 'r_telegram', 'r_fb', 'r_yt', 'w_ban_num', 'w_unban_num', 'w_story_bot', 'w_crush_bot', 'pay_freefire', 'pay_booyah_pass', 'pay_pubg', 'pay_we_internet', 'pay_mobile_bundle', 'pay_we_offer', 'fn_whatsapp', 'fn_telegram', 'fn_permanent'].forEach(id => {
                 const input = document.getElementById('p_' + id);
                 if(input) pricesData[id] = input.value;
             });
