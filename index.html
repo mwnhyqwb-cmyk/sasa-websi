@@ -6,26 +6,19 @@
     <title>متجر صاصا التاريخ 🧙</title>
     <style>
         :root {
-            --bg-overlay: rgba(0, 0, 0, 0.65);
-            --card-bg: rgba(255, 255, 255, 0.12);
-            --card-border: rgba(255, 255, 255, 0.2);
+            --bg-overlay: rgba(0, 0, 0, 0.7);
+            --card-bg: rgba(20, 20, 20, 0.65);
+            --card-border: rgba(255, 255, 255, 0.15);
             --text-color: #ffffff;
             --sub-text: #ddd;
-            --accent-color: #ff4757;
-            --input-bg: rgba(0, 0, 0, 0.5);
+            --accent-color: #e50914;
+            --input-bg: rgba(0, 0, 0, 0.6);
             --input-text: #fff;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: all 0.3s ease;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: background-color 0.3s, color 0.3s; }
+        
         body {
-            /* وضع الصورة التي أرسلتها كخلفية ثابته للموقع بالكامل */
             background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
                         url('https://i.ibb.co/680326H/IMG-4093-b993a8.jpg') no-repeat center center fixed;
             background-size: cover;
@@ -35,14 +28,16 @@
         }
 
         header {
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(12px);
+            color: white;
             padding: 25px 20px;
             text-align: center;
-            border-bottom: 1px solid var(--card-border);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             position: relative;
+            border-bottom: 1px solid var(--card-border);
         }
-
+        
         .theme-toggle-btn {
             position: absolute;
             top: 20px;
@@ -50,241 +45,40 @@
             background: rgba(255, 255, 255, 0.15);
             border: 1px solid var(--card-border);
             color: white;
-            padding: 8px 16px;
+            padding: 8px 14px;
             border-radius: 20px;
             cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
             backdrop-filter: blur(5px);
         }
+        .theme-toggle-btn:hover { background: rgba(255, 255, 255, 0.25); }
 
-        .container {
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 0 20px;
-        }
+        .container { max-width: 900px; margin: 20px auto; padding: 0 20px; }
+        
+        .stats-container { display: flex; gap: 15px; margin-bottom: 25px; }
+        .stat-card { flex: 1; background: var(--card-bg); backdrop-filter: blur(10px); padding: 15px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: 1px solid var(--card-border); }
+        .stat-number { font-size: 1.8rem; font-weight: bold; color: #64b5f6; }
+        .stat-label { font-size: 0.9rem; color: #aaa; }
 
-        .section-box {
-            background: var(--card-bg);
-            backdrop-filter: blur(15px);
-            border: 1px solid var(--card-border);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
+        .category-btn { width: 100%; background: rgba(30, 60, 114, 0.8); backdrop-filter: blur(10px); color: white; border: 1px solid var(--card-border); padding: 15px; text-align: right; font-size: 1.2rem; font-weight: bold; border-radius: 10px; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .category-btn:hover { background: rgba(30, 60, 114, 0.95); }
 
-        .category-btn {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            color: white;
-            border: 1px solid var(--card-border);
-            padding: 15px 20px;
-            text-align: right;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .category-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-        }
-
-        .category-content {
-            display: none;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            border: 1px solid var(--card-border);
-        }
-
-        .service-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
+        .category-content { display: none; margin-bottom: 20px; padding: 10px; background: var(--card-bg); backdrop-filter: blur(12px); border-radius: 10px; border: 1px solid var(--card-border); }
+        .service-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .service-item:last-child { border-bottom: none; }
+        
+        .badge-open { background: #2ecc71; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; }
+        .badge-closed { background: #e74c3c; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; }
 
-        .btn-order {
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+        .btn-order { background: #e50914; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-weight: bold; }
+        .btn-order:hover { background: #ff1e27; }
+        .btn-disabled { background: #444; color: #888; border: none; padding: 6px 12px; border-radius: 6px; cursor: not-allowed; font-size: 0.9rem; }
 
-        .btn-order:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
+        .section-box { background: var(--card-bg); backdrop-filter: blur(12px); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 25px; border: 1px solid var(--card-border); }
+        .section-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; color: #64b5f6; border-bottom: 2px solid #64b5f6; padding-bottom: 5px; }
+        
+        .order-track-card { background: rgba(0,0,0,0.4); border: 1px solid var(--card-border); padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
 
-        .admin-add-btn {
-            width: 100%;
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
-        }
-
-        .admin-panel {
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--card-border);
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 20px;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(8px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-box {
-            background: rgba(20, 20, 20, 0.95);
-            border: 1px solid var(--card-border);
-            padding: 25px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 450px;
-            color: white;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 12px;
-            background: var(--input-bg);
-            border: 1px solid var(--card-border);
-            color: white;
-            border-radius: 8px;
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <button class="theme-toggle-btn" onclick="alert('وضع الهالوين/الغموض مفعّل افتراضياً مع الخلفية 🧙')">🌙 الثيم</button>
-        <h1>متجر صاصا التاريخ 🧙</h1>
-    </header>
-
-    <div class="container">
-        <!-- قسم الخدمات الديناميكي -->
-        <div class="section-box">
-            <h2>الخدمات المتاحة 🛒</h2>
-            <br>
-            
-            <button class="category-btn" onclick="toggleCat('vodaCat')"><span>خدمات فودافون 💙</span> <span>▼</span></button>
-            <div class="category-content" id="vodaCat">
-                <div class="service-item">
-                    <div><strong>سحب بيانات فودافون</strong> - 60 ج.م</div>
-                    <button class="btn-order" onclick="openModal('سحب بيانات فودافون', 60)">طلب</button>
-                </div>
-            </div>
-
-            <!-- مكان ظهور الخدمات الجديدة المضافة من الأدمن -->
-            <div id="customServicesContainer"></div>
-        </div>
-
-        <!-- لوحة تحكم الأدمن -->
-        <div class="admin-panel">
-            <h3>⚙️ لوحة تحكم الأدمن</h3>
-            <br>
-
-            <!-- زر إضافة خدمة جديدة ➕ -->
-            <button class="admin-add-btn" onclick="openAddServiceModal()">
-                <span>➕ إضافة خدمة جديدة</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- نافذة إضافة خدمة جديدة Modal -->
-    <div class="modal" id="addServiceModal">
-        <div class="modal-box">
-            <h3>➕ إضافة خدمة جديدة للمتجر</h3>
-            <br>
-            <form onsubmit="addNewService(event)">
-                <label>اسم الخدمة:</label>
-                <input type="text" id="newServiceName" placeholder="مثال: رشق متابعين تيك توك" required>
-
-                <label>السعر (ج.م):</label>
-                <input type="number" id="newServicePrice" placeholder="مثال: 150" required>
-
-                <label>قسم الخدمة:</label>
-                <select id="newServiceCategory">
-                    <option value="vodaCat">خدمات فودافون</option>
-                    <option value="custom">قسم خاص جديد</option>
-                </select>
-
-                <div style="display: flex; gap: 10px; margin-top: 10px;">
-                    <button type="submit" class="btn-order" style="flex: 1; background: #2ecc71;">حفظ وإضافة</button>
-                    <button type="button" class="btn-order" style="flex: 1; background: #e74c3c;" onclick="closeAddModal()">إلغاء</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        function toggleCat(id) {
-            const el = document.getElementById(id);
-            el.style.display = el.style.display === 'block' ? 'none' : 'block';
-        }
-
-        function openAddServiceModal() {
-            document.getElementById('addServiceModal').style.display = 'flex';
-        }
-
-        function closeAddModal() {
-            document.getElementById('addServiceModal').style.display = 'none';
-        }
-
-        function addNewService(e) {
-            e.preventDefault();
-            const name = document.getElementById('newServiceName').value;
-            const price = document.getElementById('newServicePrice').value;
-
-            const container = document.getElementById('customServicesContainer');
-            
-            const itemHtml = `
-                <div class="service-item" style="background: rgba(255,255,255,0.05); margin-top: 5px; border-radius: 8px;">
-                    <div><strong>${name}</strong> - ${price} ج.م <span style="color: #2ecc71; font-size: 0.8rem;">(جديد)</span></div>
-                    <button class="btn-order" onclick="alert('تم اختيار ${name}')">طلب</button>
-                </div>
-            `;
-            
-            container.innerHTML += itemHtml;
-            closeAddModal();
-            alert('تمت إضافة الخدمة بنجاح إلى المتجر! 🎉');
-        }
-    </script>
-</body>
-</html>
+        .fancy-divider, .chill-divider, .payments-divider {
+            height: 4px; width: 100%; border-radius: 4px; margin
