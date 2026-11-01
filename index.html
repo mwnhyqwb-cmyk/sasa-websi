@@ -6,67 +6,182 @@
     <title>متجر صاصا التاريخ 🧙</title>
     <style>
         :root {
-            --bg-overlay: rgba(0, 0, 0, 0.72);
-            --card-bg: rgba(20, 20, 20, 0.65);
+            /* خلفية دارك احترافية متدرجة بدون صور خارجية */
+            --bg-gradient: radial-gradient(circle at top right, #1a2a3a 0%, #0d1117 60%, #05080c 100%);
+            --card-bg: rgba(255, 255, 255, 0.07);
             --card-border: rgba(255, 255, 255, 0.15);
             --text-color: #ffffff;
             --accent-color: #e50914;
-            --input-bg: rgba(0, 0, 0, 0.6);
+            --input-bg: rgba(0, 0, 0, 0.5);
             --input-text: #fff;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: all 0.3s ease; }
         
         body {
-            /* وضع الرابط المباشر الصحيح للصورة في الخلفية مع تغطية كاملة وتثبيت */
-            background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
-                        url('https://i.ibb.co/5gJzK3zf/IMG-4093.jpg') no-repeat center center fixed;
-            background-size: cover;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
             color: var(--text-color);
             line-height: 1.6;
             min-height: 100vh;
         }
 
         header {
-            background: rgba(0, 0, 0, 0.65);
-            backdrop-filter: blur(12px);
+            background: rgba(13, 17, 23, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             color: white;
             padding: 25px 20px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
             position: relative;
             border-bottom: 1px solid var(--card-border);
         }
 
-        .container { max-width: 900px; margin: 20px auto; padding: 0 20px; }
+        .container { max-width: 900px; margin: 20px auto; padding: 0 15px; }
         
-        .stats-container { display: flex; gap: 15px; margin-bottom: 25px; }
-        .stat-card { flex: 1; background: var(--card-bg); backdrop-filter: blur(10px); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid var(--card-border); }
-        .stat-number { font-size: 1.8rem; font-weight: bold; color: #64b5f6; }
-        .stat-label { font-size: 0.9rem; color: #aaa; }
+        .stats-container { display: flex; gap: 12px; margin-bottom: 20px; }
+        .stat-card { 
+            flex: 1; 
+            background: var(--card-bg); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px); 
+            padding: 15px; 
+            border-radius: 12px; 
+            text-align: center; 
+            border: 1px solid var(--card-border); 
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        .stat-number { font-size: 1.8rem; font-weight: bold; color: #58a6ff; }
+        .stat-label { font-size: 0.85rem; color: #aaa; }
 
-        .category-btn { width: 100%; background: rgba(30, 60, 114, 0.85); backdrop-filter: blur(10px); color: white; border: 1px solid var(--card-border); padding: 15px; text-align: right; font-size: 1.2rem; font-weight: bold; border-radius: 10px; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .category-content { display: none; margin-bottom: 20px; padding: 10px; background: var(--card-bg); backdrop-filter: blur(12px); border-radius: 10px; border: 1px solid var(--card-border); }
-        .service-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .category-btn { 
+            width: 100%; 
+            background: rgba(30, 60, 114, 0.4); 
+            backdrop-filter: blur(10px); 
+            -webkit-backdrop-filter: blur(10px);
+            color: white; 
+            border: 1px solid var(--card-border); 
+            padding: 15px 18px; 
+            text-align: right; 
+            font-size: 1.15rem; 
+            font-weight: bold; 
+            border-radius: 12px; 
+            margin-bottom: 10px; 
+            cursor: pointer; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .category-btn:hover { background: rgba(30, 60, 114, 0.65); border-color: #58a6ff; }
+        
+        .category-content { 
+            display: none; 
+            margin-bottom: 15px; 
+            padding: 12px; 
+            background: var(--card-bg); 
+            backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 12px; 
+            border: 1px solid var(--card-border); 
+        }
+        
+        .service-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); }
         .service-item:last-child { border-bottom: none; }
         
-        .badge-open { background: #2ecc71; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; }
-        .badge-closed { background: #e74c3c; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; }
+        .badge-open { background: #238636; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; }
+        .badge-closed { background: #da3633; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; }
 
-        .btn-order { background: #e50914; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-weight: bold; }
-        .btn-disabled { background: #444; color: #888; border: none; padding: 6px 12px; border-radius: 6px; cursor: not-allowed; font-size: 0.9rem; }
+        .btn-order { background: var(--accent-color); color: white; border: none; padding: 7px 14px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-weight: bold; }
+        .btn-order:hover { background: #f85149; }
+        .btn-disabled { background: #21262d; color: #6e7681; border: none; padding: 7px 14px; border-radius: 6px; cursor: not-allowed; font-size: 0.9rem; }
 
-        .section-box { background: var(--card-bg); backdrop-filter: blur(12px); padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid var(--card-border); }
-        .section-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; color: #64b5f6; border-bottom: 2px solid #64b5f6; padding-bottom: 5px; }
+        .section-box { 
+            background: var(--card-bg); 
+            backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px);
+            padding: 20px; 
+            border-radius: 12px; 
+            margin-bottom: 20px; 
+            border: 1px solid var(--card-border); 
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        .section-title { font-size: 1.15rem; font-weight: bold; margin-bottom: 12px; color: #58a6ff; border-bottom: 2px solid #1f6feb; padding-bottom: 5px; }
 
-        .admin-trigger { background: rgba(52, 73, 94, 0.9); backdrop-filter: blur(10px); color: white; padding: 14px; text-align: center; border-radius: 10px; cursor: pointer; font-weight: bold; margin-top: 20px; border: 1px solid var(--card-border); }
-        .admin-panel { display: none; background: var(--card-bg); backdrop-filter: blur(15px); padding: 20px; border-radius: 10px; border: 2px solid #34495e; margin-top: 10px; margin-bottom: 30px; }
+        .admin-trigger { 
+            background: rgba(52, 73, 94, 0.5); 
+            backdrop-filter: blur(10px); 
+            -webkit-backdrop-filter: blur(10px);
+            color: white; 
+            padding: 14px; 
+            text-align: center; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            margin-top: 20px; 
+            border: 1px solid var(--card-border); 
+        }
+        .admin-panel { 
+            display: none; 
+            background: rgba(13, 17, 23, 0.85); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
+            padding: 20px; 
+            border-radius: 12px; 
+            border: 1px solid var(--card-border); 
+            margin-top: 10px; 
+            margin-bottom: 30px; 
+        }
         
-        .admin-add-btn { width: 100%; background: linear-gradient(135deg, #2ecc71, #27ae60); color: white; border: none; padding: 12px; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; margin-bottom: 15px; }
+        .admin-add-btn { 
+            width: 100%; 
+            background: linear-gradient(135deg, #238636, #2ea043); 
+            color: white; 
+            border: none; 
+            padding: 12px; 
+            border-radius: 8px; 
+            font-size: 1rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-bottom: 15px; 
+            box-shadow: 0 4px 15px rgba(35, 134, 54, 0.4);
+        }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-box { background: rgba(20,20,20,0.95); padding: 25px; border-radius: 12px; width: 90%; max-width: 450px; border: 1px solid var(--card-border); color: #fff; }
-        .modal-box input { width: 100%; padding: 8px; margin-bottom: 10px; background: var(--input-bg); border: 1px solid var(--card-border); color: #fff; border-radius: 6px; }
+        .modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.75); 
+            backdrop-filter: blur(10px); 
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 15px; 
+        }
+        .modal-box { 
+            background: rgba(22, 27, 34, 0.95); 
+            padding: 22px; 
+            border-radius: 12px; 
+            width: 100%; 
+            max-width: 420px; 
+            border: 1px solid var(--card-border); 
+            color: #fff; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        }
+        .modal-box input { 
+            width: 100%; 
+            padding: 10px; 
+            margin-bottom: 12px; 
+            background: var(--input-bg); 
+            border: 1px solid var(--card-border); 
+            color: #fff; 
+            border-radius: 6px; 
+        }
     </style>
 </head>
 <body>
@@ -92,7 +207,7 @@
             <div id="userOrdersList"><p style="color: #aaa; text-align: center;">لا توجد طلبات نشطة حالياً.</p></div>
         </div>
 
-        <!-- الأقسام الرئيسية -->
+        <!-- الأقسام -->
         <button class="category-btn" onclick="toggleCategory('vodaCategory')"><span>خدمات فودافون 💙✨</span> <span>▼</span></button>
         <div class="category-content" id="vodaCategory">
             <div class="service-item"><div><strong>سحب بيانات فودافون</strong> - 60 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('سحب بيانات فودافون', 60)">طلب</button></div>
@@ -106,7 +221,7 @@
             <div class="service-item"><div><strong>بحث قومي اتصالات 🔍</strong> - 0 ج.م <span class="badge-closed">مغلق ❌</span></div><button class="btn-disabled" disabled>مغلق</button></div>
         </div>
 
-        <button class="category-btn" style="background: linear-gradient(135deg, rgba(142,68,173,0.85), rgba(52,152,219,0.85));" onclick="toggleCategory('reshqCategory')"><span>خدمات الرشق 🎵 💙✨</span> <span>▼</span></button>
+        <button class="category-btn" style="background: rgba(142,68,173,0.35);" onclick="toggleCategory('reshqCategory')"><span>خدمات الرشق 🎵 💙✨</span> <span>▼</span></button>
         <div class="category-content" id="reshqCategory">
             <div class="service-item"><div><strong>رشق متابعين تيك توك (1k) 🎵🚀</strong> - 150 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق متابعين تيك توك (1k)', 150)">طلب</button></div>
             <div class="service-item"><div><strong>رشق مشاهدات تيك توك {1k}👁️</strong> - 50 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق مشاهدات تيك توك {1k}', 50)">طلب</button></div>
@@ -119,9 +234,9 @@
         
         <div class="admin-panel" id="adminPanel">
             <h3>🔑 لوحة تحكم الأدمن</h3>
-            <hr style="margin: 10px 0; border-color: rgba(255,255,255,0.2);">
+            <hr style="margin: 10px 0; border-color: rgba(255,255,255,0.1);">
             <button class="admin-add-btn" onclick="openAddServiceModal()">➕ إضافة خدمة جديدة وسعرها</button>
-            <h4 style="color: #64b5f6;">📋 الطلبات الواردة:</h4>
+            <h4 style="color: #58a6ff;">📋 الطلبات الواردة:</h4>
             <div id="adminOrdersList"><p style="color: #aaa;">لا توجد طلبات جديدة.</p></div>
         </div>
     </div>
@@ -130,14 +245,14 @@
     <div class="modal" id="orderModal">
         <div class="modal-box">
             <h3 id="modalServiceName"></h3>
-            <p style="color: #e50914; margin-bottom: 10px;">المبلغ المطلوب: <span id="modalServicePrice"></span> ج.م</p>
-            <p style="margin-bottom: 10px; font-size: 0.9rem;">تحويل فودافون كاش على: <strong style="color:#2ecc71;">01227252115</strong></p>
+            <p style="color: #e50914; margin-bottom: 10px; font-weight: bold;">المبلغ المطلوب: <span id="modalServicePrice"></span> ج.م</p>
+            <p style="margin-bottom: 10px; font-size: 0.9rem; color: #aaa;">تحويل فودافون كاش على الرقم: <strong style="color:#2ecc71;">01227252115</strong></p>
             <form onsubmit="submitOrder(event)">
                 <input type="text" id="custName" placeholder="اسمك بالكامل" required>
                 <input type="tel" id="custPhone" placeholder="رقم الواتساب" required>
                 <input type="text" id="custTarget" placeholder="الرقم المستهدف / اليوزر" required>
-                <button type="submit" class="btn-order" style="width: 100%; padding: 10px; background: #2ecc71;">تأكيد الإرسال</button>
-                <button type="button" class="btn-order" style="width: 100%; padding: 10px; background: #444; margin-top: 5px;" onclick="closeOrderModal()">إلغاء</button>
+                <button type="submit" class="btn-order" style="width: 100%; padding: 10px; background: #238636;">تأكيد الإرسال</button>
+                <button type="button" class="btn-order" style="width: 100%; padding: 10px; background: #21262d; margin-top: 6px;" onclick="closeOrderModal()">إلغاء</button>
             </form>
         </div>
     </div>
@@ -150,8 +265,8 @@
             <form onsubmit="saveNewService(event)">
                 <input type="text" id="newServiceName" placeholder="اسم الخدمة الجديدة" required>
                 <input type="number" id="newServicePrice" placeholder="السعر (ج.م)" required>
-                <button type="submit" class="btn-order" style="width: 100%; padding: 10px; background: #2ecc71;">إضافة للمتجر</button>
-                <button type="button" class="btn-order" style="width: 100%; padding: 10px; background: #444; margin-top: 5px;" onclick="closeAddServiceModal()">إلغاء</button>
+                <button type="submit" class="btn-order" style="width: 100%; padding: 10px; background: #238636;">إضافة للمتجر</button>
+                <button type="button" class="btn-order" style="width: 100%; padding: 10px; background: #21262d; margin-top: 6px;" onclick="closeAddServiceModal()">إلغاء</button>
             </form>
         </div>
     </div>
@@ -198,7 +313,7 @@
         function renderCustomServices() {
             const container = document.getElementById('dynamicCategoriesContainer');
             if (!customServices.length) return;
-            let html = `<button class="category-btn" style="background: rgba(230,126,34,0.85);" onclick="toggleCategory('customCat')"><span>خدمات الأدمن المضافة 🌟</span> <span>▼</span></button><div class="category-content" id="customCat">`;
+            let html = `<button class="category-btn" style="background: rgba(230,126,34,0.35);" onclick="toggleCategory('customCat')"><span>خدمات الأدمن المضافة 🌟</span> <span>▼</span></button><div class="category-content" id="customCat">`;
             customServices.forEach(s => {
                 html += `<div class="service-item"><div><strong>${s.name}</strong> - ${s.price} ج.م</div><button class="btn-order" onclick="openOrderModal('${s.name}', ${s.price})">طلب</button></div>`;
             });
@@ -218,7 +333,7 @@
         function renderUserOrders() {
             const list = document.getElementById('userOrdersList');
             if (!orders.length) return;
-            list.innerHTML = orders.map(o => `<div style="background:rgba(0,0,0,0.4); padding:8px; margin-bottom:5px; border-radius:6px;"><strong>${o.service}</strong> - ${o.price} ج.م (${o.status})</div>`).join('');
+            list.innerHTML = orders.map(o => `<div style="background:rgba(0,0,0,0.3); padding:8px; margin-bottom:5px; border-radius:6px;"><strong>${o.service}</strong> - ${o.price} ج.م (${o.status})</div>`).join('');
             document.getElementById('totalOrdersCount').innerText = orders.length;
         }
 
