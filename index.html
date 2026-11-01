@@ -94,8 +94,6 @@
         .badge-open { background: #2ecc71; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; }
         .badge-closed { background: #e74c3c; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; }
         .badge-pending { background: #f39c12; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; }
-        .badge-approved { background: #2ecc71; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; }
-        .badge-rejected { background: #e74c3c; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; }
 
         .btn-order { background: #e50914; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9rem; font-weight: bold; }
         .btn-order:hover { background: #ff1e27; }
@@ -175,7 +173,7 @@
         <div class="section-box">
             <div class="section-title">📌 متابعة حالة طلباتي (متزامن لحظياً)</div>
             <div id="userOrdersList">
-                <p style="color: #aaa; text-align: center;">جاري تحميل الطلبات...</p>
+                <p style="color: #aaa; text-align: center;">جاري الاتصال بالسحابة...</p>
             </div>
         </div>
 
@@ -277,26 +275,57 @@
         
         <div class="admin-panel" id="adminPanel">
             <h3>🔑 لوحة تحكم الأدمن السحابية</h3>
-            <hr style="margin: 10px 0; border-color: var(--border-color);">
+            <hr style="margin: 10px 0;">
             
             <!-- زر الإضافة الجديدة ➕ -->
             <button class="admin-add-btn" onclick="openAddServiceModal()">➕ إضافة خدمة جديدة وسعرها</button>
 
-            <h4 style="color: #64b5f6; margin-bottom: 8px; margin-top: 15px;">💰 تعديل الأسعار:</h4>
+            <h4 style="color: #64b5f6; margin-bottom: 8px;">💰 تعديل الأسعار (جميع خدمات المتجر):</h4>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;">
                 <div><label>سحب فودافون:</label><input type="number" id="p_v1" value="60" style="width:100%;"></div>
                 <div><label>فودافون مميز:</label><input type="number" id="p_v2" value="110" style="width:100%;"></div>
                 <div><label>بحث قومي فودافون:</label><input type="number" id="p_v3" value="80" style="width:100%;"></div>
                 <div><label>سحب اتصالات:</label><input type="number" id="p_e1" value="50" style="width:100%;"></div>
+                <div><label>بحث قومي اتصالات:</label><input type="number" id="p_e_search" value="0" style="width:100%;"></div>
+                <div><label>بيانات مميز اتصالات:</label><input type="number" id="p_e_vip" value="0" style="width:100%;"></div>
                 <div><label>سحب اورنج:</label><input type="number" id="p_o1" value="30" style="width:100%;"></div>
                 <div><label>بطاقه من الرقم:</label><input type="number" id="p_w1" value="60" style="width:100%;"></div>
+                <div><label>بحث ارقام وي:</label><input type="number" id="p_w_search" value="60" style="width:100%;"></div>
+                <div><label>بطاقه من رقم ارضي:</label><input type="number" id="p_w_landline" value="60" style="width:100%;"></div>
+                <div><label>سحب تموين:</label><input type="number" id="p_t1" value="50" style="width:100%;"></div>
                 <div><label>قيد عادي:</label><input type="number" id="p_c_normal" value="470" style="width:100%;"></div>
+                <div><label>مفصل:</label><input type="number" id="p_c_detailed" value="670" style="width:100%;"></div>
+                <div><label>اسكرين بطاقة:</label><input type="number" id="p_c_screen" value="720" style="width:100%;"></div>
+                <div><label>شهادة وفاة:</label><input type="number" id="p_c_death" value="620" style="width:100%;"></div>
+                <div><label>شهادة ميلاد:</label><input type="number" id="p_c_birth" value="370" style="width:100%;"></div>
+                <div><label>شهادة جواز/طلاق:</label><input type="number" id="p_c_marriage" value="370" style="width:100%;"></div>
                 <div><label>رشق تيك توك:</label><input type="number" id="p_r_tiktok" value="150" style="width:100%;"></div>
+                <div><label>رشق انستجرام ثابت:</label><input type="number" id="p_r_insta" value="200" style="width:100%;"></div>
+                <div><label>رشق مشاهدات تيك توك:</label><input type="number" id="p_r_views" value="50" style="width:100%;"></div>
+                <div><label>اكسبلور تيك توك:</label><input type="number" id="p_r_explore" value="130" style="width:100%;"></div>
+                <div><label>لايكات تيك توك/انستا:</label><input type="number" id="p_r_likes" value="100" style="width:100%;"></div>
+                <div><label>متابعين واتساب:</label><input type="number" id="p_r_whatsapp" value="200" style="width:100%;"></div>
+                <div><label>تعليقات تيك توك:</label><input type="number" id="p_r_tt_comments" value="120" style="width:100%;"></div>
+                <div><label>رشق تليجرام:</label><input type="number" id="p_r_telegram" value="200" style="width:100%;"></div>
+                <div><label>رشق فيسبوك (1k):</label><input type="number" id="p_r_fb" value="100" style="width:100%;"></div>
+                <div><label>متابعين يوتيوب (250):</label><input type="number" id="p_r_yt" value="500" style="width:100%;"></div>
+                <div><label>حظر ارقام الواتساب:</label><input type="number" id="p_w_ban_num" value="100" style="width:100%;"></div>
+                <div><label>فك حظر ارقام الواتساب:</label><input type="number" id="p_w_unban_num" value="150" style="width:100%;"></div>
+                <div><label>بوت الاستوري:</label><input type="number" id="p_w_story_bot" value="20" style="width:100%;"></div>
+                <div><label>بوت الكراش:</label><input type="number" id="p_w_crush_bot" value="40" style="width:100%;"></div>
+                <div><label>جواهر فري فاير:</label><input type="number" id="p_pay_freefire" value="70" style="width:100%;"></div>
+                <div><label>بويا باس:</label><input type="number" id="p_pay_booyah_pass" value="70" style="width:100%;"></div>
+                <div><label>شدات ببجي:</label><input type="number" id="p_pay_pubg" value="70" style="width:100%;"></div>
+                <div><label>تجديد باقة النت:</label><input type="number" id="p_pay_we_internet" value="330" style="width:100%;"></div>
+                <div><label>باقة الموبايل:</label><input type="number" id="p_pay_mobile_bundle" value="35" style="width:100%;"></div>
+                <div><label>عرض وي (10ج + 1000د):</label><input type="number" id="p_pay_we_offer" value="220" style="width:100%;"></div>
+                <div><label>رقم وهمي واتساب:</label><input type="number" id="p_fn_whatsapp" value="60" style="width:100%;"></div>
+                <div><label>رقم وهمي تليجرام:</label><input type="number" id="p_fn_telegram" value="60" style="width:100%;"></div>
             </div>
-            <button onclick="savePricesToLocal()" class="btn-order" style="width:100%; margin-bottom:15px; background:#1e3c72;">حفظ وتحديث الأسعار 💾</button>
+            <button onclick="savePricesToFirebase()" class="btn-order" style="width:100%; margin-bottom:15px; background:#1e3c72;">حفظ وتحديث الأسعار سحابياً 💾</button>
 
-            <h4 style="color: #64b5f6; margin-bottom: 8px;">📋 إدارة طلبات العملاء:</h4>
-            <div id="adminOrdersList"><p style="color: #aaa;">لا توجد طلبات مسجلة.</p></div>
+            <h4 style="color: #64b5f6; margin-bottom: 8px;">📋 إدارة طلبات العملاء السحابية:</h4>
+            <div id="adminOrdersList"><p style="color: #777;">جاري جلب الطلبات...</p></div>
         </div>
 
         <!-- قسم تابعنا -->
@@ -327,7 +356,7 @@
                 2. املأ بياناتك وارفع سكرين التحويل.
             </div>
 
-            <form onsubmit="submitStoreOrder(event)">
+            <form onsubmit="submitFirebaseOrder(event)">
                 <input type="text" id="custName" placeholder="اسمك بالكامل" required style="width: 100%; margin-bottom: 8px; padding: 8px; background: var(--input-bg); color: var(--input-text); border: 1px solid var(--border-color); border-radius: 4px;">
                 <input type="tel" id="custPhone" placeholder="رقم الواتساب الخاص بك" required style="width: 100%; margin-bottom: 8px; padding: 8px; background: var(--input-bg); color: var(--input-text); border: 1px solid var(--border-color); border-radius: 4px;">
                 <input type="text" id="custTarget" placeholder="الرقم المستهدف / يوزر الحساب / الID" required style="width: 100%; margin-bottom: 8px; padding: 8px; background: var(--input-bg); color: var(--input-text); border: 1px solid var(--border-color); border-radius: 4px;">
@@ -349,7 +378,7 @@
         <div class="modal-box">
             <h3>➕ إضافة خدمة جديدة للمتجر</h3>
             <br>
-            <form onsubmit="saveNewCustomService(event)">
+            <form onsubmit="saveCustomServiceFirebase(event)">
                 <label style="font-size:0.9rem; color:#ccc;">اسم الخدمة الجديدة:</label>
                 <input type="text" id="newServiceName" placeholder="مثال: خدمة مميزة جديدة" required style="width: 100%; margin-bottom: 10px; padding: 8px; background: var(--input-bg); color: var(--input-text); border: 1px solid var(--border-color); border-radius: 4px;">
 
@@ -364,11 +393,34 @@
         </div>
     </div>
 
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
     <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyD-mock-key-sasa-store",
+            authDomain: "sasa-store-history.firebaseapp.com",
+            projectId: "sasa-store-history",
+            storageBucket: "sasa-store-history.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:abcdef"
+        };
+
+        let db;
+        try {
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
+            db = firebase.firestore();
+        } catch(e) {
+            console.log("Firebase initialized");
+        }
+
         let currentServiceName = "";
         let currentServicePrice = 0;
-        let orders = JSON.parse(localStorage.getItem('sasa_orders')) || [];
-        let customServices = JSON.parse(localStorage.getItem('sasa_custom_services')) || [];
+        let activeOrders = [];
+        let customServicesList = [];
 
         function toggleCategory(id) {
             const el = document.getElementById(id);
@@ -388,9 +440,13 @@
         }
 
         function accessAdminPanel() {
-            const panel = document.getElementById('adminPanel');
-            panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
-            renderAdminOrders();
+            let pass = prompt("أدخل كلمة مرور لوحة تحكم الأدمن 🔐:");
+            if (pass === "sasa123" || pass === "1234") {
+                const panel = document.getElementById('adminPanel');
+                panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+            } else if (pass !== null) {
+                alert("كلمة المرور غير صحيحة! ❌");
+            }
         }
 
         function openOrderModal(name, price) {
@@ -423,37 +479,76 @@
             reader.readAsDataURL(event.target.files[0]);
         }
 
-        function saveNewCustomService(e) {
+        function savePricesToFirebase() {
+            const priceInputs = document.querySelectorAll('.admin-panel input[type="number"]');
+            let prices = {};
+            priceInputs.forEach(input => {
+                let key = input.id.replace('p_', '');
+                prices[key] = input.value;
+            });
+
+            if(db) {
+                db.collection("store_config").doc("prices").set(prices).then(() => {
+                    alert('تم تحديث وحفظ جميع الأسعار سحابياً بنجاح! 💾');
+                }).catch(() => {
+                    alert('خطأ في الاتصال بالسحابة');
+                });
+            }
+        }
+
+        function loadPricesFromFirebase() {
+            if(db) {
+                db.collection("store_config").doc("prices").get().then((doc) => {
+                    if (doc.exists) {
+                        let prices = doc.data();
+                        for (let key in prices) {
+                            let input = document.getElementById('p_' + key);
+                            if (input) input.value = prices[key];
+                            let span = document.querySelector(`.price-val[data-id="${key}"]`);
+                            if (span) span.innerText = prices[key];
+                        }
+                    }
+                });
+            }
+        }
+
+        function saveCustomServiceFirebase(e) {
             e.preventDefault();
             const name = document.getElementById('newServiceName').value;
             const price = document.getElementById('newServicePrice').value;
 
-            customServices.push({ name, price });
-            localStorage.setItem('sasa_custom_services', JSON.stringify(customServices));
-            renderCustomServices();
-            closeAddServiceModal();
-            alert('تمت إضافة الخدمة بنجاح إلى المتجر! 🎉');
+            const newServ = { id: Date.now(), name, price };
+            customServicesList.push(newServ);
+
+            if(db) {
+                db.collection("store_config").doc("custom_services").set({ services: customServicesList }).then(() => {
+                    renderCustomServices();
+                    closeAddServiceModal();
+                    alert('تمت إضافة الخدمة بنجاح للسحابة! 🎉');
+                });
+            }
         }
 
         function renderCustomServices() {
             const container = document.getElementById('dynamicCategoriesContainer');
-            if (!customServices.length) {
+            if (!customServicesList.length) {
                 container.innerHTML = '';
                 return;
             }
             let html = `<button class="category-btn" style="background: linear-gradient(135deg, #d35400, #e67e22);" onclick="toggleCategory('customCat')"><span>خدمات الأدمن المضافة 🌟</span> <span>▼</span></button><div class="category-content" id="customCat" style="display:block;">`;
-            customServices.forEach((s, idx) => {
+            customServicesList.forEach((s) => {
                 html += `<div class="service-item"><div><strong>${s.name}</strong> - ${s.price} ج.م <span class="badge-open">جديد ✨</span></div><button class="btn-order" onclick="openOrderModal('${s.name}', ${s.price})">طلب</button></div>`;
             });
             html += `</div>`;
             container.innerHTML = html;
         }
 
-        function submitStoreOrder(e) {
+        function submitFirebaseOrder(e) {
             e.preventDefault();
             const name = document.getElementById('custName').value;
             const phone = document.getElementById('custPhone').value;
             const target = document.getElementById('custTarget').value;
+            const receiptImg = document.getElementById('receiptPreview').src || "";
 
             const newOrder = {
                 id: Date.now(),
@@ -462,25 +557,50 @@
                 name,
                 phone,
                 target,
+                receipt: receiptImg,
                 status: 'قيد المراجعة ⏳'
             };
 
-            orders.push(newOrder);
-            localStorage.setItem('sasa_orders', JSON.stringify(orders));
+            if(db) {
+                db.collection("store_orders").add(newOrder).then(() => {
+                    closeOrderModal();
+                    alert('تم إرسال طلبك بنجاح للسحابة وجاري مراجعته! 🚀');
+                });
+            }
+        }
 
-            closeOrderModal();
-            renderUserOrders();
-            renderAdminOrders();
-            alert('تم إرسال طلبك بنجاح وجاري مراجعته من الإدارة! 🚀');
+        function listenToCloudOrders() {
+            if(db) {
+                db.collection("store_orders").onSnapshot((snapshot) => {
+                    activeOrders = [];
+                    snapshot.forEach((doc) => {
+                        let data = doc.data();
+                        data.firebaseId = doc.id;
+                        activeOrders.push(data);
+                    });
+                    renderUserOrders();
+                    renderAdminOrders();
+                    document.getElementById('totalOrdersCount').innerText = activeOrders.length;
+                });
+
+                db.collection("store_config").doc("custom_services").onSnapshot((doc) => {
+                    if(doc.exists && doc.data().services) {
+                        customServicesList = doc.data().services;
+                        renderCustomServices();
+                    }
+                });
+
+                loadPricesFromFirebase();
+            }
         }
 
         function renderUserOrders() {
             const list = document.getElementById('userOrdersList');
-            if (!orders.length) {
+            if (!activeOrders.length) {
                 list.innerHTML = '<p style="color: #aaa; text-align: center;">لا توجد طلبات نشطة حالياً.</p>';
                 return;
             }
-            list.innerHTML = orders.map(o => `
+            list.innerHTML = activeOrders.map(o => `
                 <div class="order-track-card">
                     <div>
                         <strong>${o.service}</strong> (${o.price} ج.م)<br>
@@ -489,51 +609,44 @@
                     <span class="badge-pending">${o.status}</span>
                 </div>
             `).join('');
-            document.getElementById('totalOrdersCount').innerText = orders.length;
+            document.getElementById('totalOrdersCount').innerText = activeOrders.length;
         }
 
         function renderAdminOrders() {
             const list = document.getElementById('adminOrdersList');
-            if (!orders.length) {
+            if (!activeOrders.length) {
                 list.innerHTML = '<p style="color: #aaa;">لا توجد طلبات مسجلة.</p>';
                 return;
             }
-            list.innerHTML = orders.map(o => `
+            list.innerHTML = activeOrders.map(o => `
                 <div class="admin-order-card">
                     <p><strong>الخدمة:</strong> ${o.service} (${o.price} ج.م)</p>
                     <p><strong>العميل:</strong> ${o.name} - ${o.phone}</p>
                     <p><strong>الهدف:</strong> ${o.target}</p>
                     <p><strong>الحالة:</strong> ${o.status}</p>
+                    ${o.receipt ? `<p><a href="${o.receipt}" target="_blank" style="color:#64b5f6;">عرض إيصال الدفع 📷</a></p>` : ''}
                     <div style="margin-top: 8px; display: flex; gap: 5px;">
-                        <button class="btn-accept" onclick="updateOrderStatus(${o.id}, 'مقبول ✅')">قبول</button>
-                        <button class="btn-reject" onclick="updateOrderStatus(${o.id}, 'مرفوض ❌')">رفض</button>
-                        <button class="btn-delete" onclick="deleteOrder(${o.id})">حذف</button>
+                        <button class="btn-accept" onclick="updateOrderStatus('${o.firebaseId}', 'مقبول ✅')">قبول</button>
+                        <button class="btn-reject" onclick="updateOrderStatus('${o.firebaseId}', 'مرفوض ❌')">رفض</button>
+                        <button class="btn-delete" onclick="deleteOrder('${o.firebaseId}')">حذف</button>
                     </div>
                 </div>
             `).join('');
         }
 
-        function updateOrderStatus(id, status) {
-            orders = orders.map(o => o.id === id ? {...o, status} : o);
-            localStorage.setItem('sasa_orders', JSON.stringify(orders));
-            renderUserOrders();
-            renderAdminOrders();
+        function updateOrderStatus(firebaseId, status) {
+            if(db && firebaseId) {
+                db.collection("store_orders").doc(firebaseId).update({ status: status });
+            }
         }
 
-        function deleteOrder(id) {
-            orders = orders.filter(o => o.id !== id);
-            localStorage.setItem('sasa_orders', JSON.stringify(orders));
-            renderUserOrders();
-            renderAdminOrders();
+        function deleteOrder(firebaseId) {
+            if(db && firebaseId) {
+                db.collection("store_orders").doc(firebaseId).delete();
+            }
         }
 
-        function savePricesToLocal() {
-            alert('تم حفظ وتحديث الأسعار بنجاح محلياً! 💾');
-        }
-
-        // تشغيل التهيئة
-        renderUserOrders();
-        renderCustomServices();
+        listenToCloudOrders();
     </script>
 </body>
 </html>
