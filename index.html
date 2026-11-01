@@ -6,7 +6,6 @@
     <title>متجر صاصا التاريخ 🧙</title>
     <style>
         :root {
-            /* خلفية دارك احترافية متدرجة بدون صور خارجية */
             --bg-gradient: radial-gradient(circle at top right, #1a2a3a 0%, #0d1117 60%, #05080c 100%);
             --card-bg: rgba(255, 255, 255, 0.07);
             --card-border: rgba(255, 255, 255, 0.15);
@@ -109,6 +108,13 @@
         }
         .section-title { font-size: 1.15rem; font-weight: bold; margin-bottom: 12px; color: #58a6ff; border-bottom: 2px solid #1f6feb; padding-bottom: 5px; }
 
+        .fancy-divider, .chill-divider, .payments-divider {
+            height: 4px; width: 100%; border-radius: 4px; margin: 30px 0 20px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        .fancy-divider { background: linear-gradient(90deg, #ff8a00, #e52e71, #9b51e0, #2f80ed); }
+        .chill-divider { background: linear-gradient(90deg, #00b09b, #96c93d, #25D366, #128C7E); }
+        .payments-divider { background: linear-gradient(90deg, #f12711, #f5af19, #00c6ff, #0072ff); }
+
         .admin-trigger { 
             background: rgba(52, 73, 94, 0.5); 
             backdrop-filter: blur(10px); 
@@ -147,6 +153,12 @@
             margin-bottom: 15px; 
             box-shadow: 0 4px 15px rgba(35, 134, 54, 0.4);
         }
+
+        .social-section { background: var(--card-bg); backdrop-filter: blur(15px); padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid var(--card-border); text-align: center; }
+        .social-buttons { display: flex; gap: 15px; justify-content: center; margin-top: 15px; flex-wrap: wrap; }
+        .social-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 30px; color: white; text-decoration: none; font-weight: bold; font-size: 0.95rem; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        .social-whatsapp { background: #25D366; }
+        .social-telegram { background: #0088cc; }
 
         .modal { 
             display: none; 
@@ -198,16 +210,16 @@
             </div>
             <div class="stat-card">
                 <div class="stat-number">1</div>
-                <div class="stat-label">🟢 متصل الآن</div>
+                <div class="stat-label">🟢 متصل الآن بالخادم</div>
             </div>
         </div>
 
         <div class="section-box">
-            <div class="section-title">📌 متابعة حالة طلباتي</div>
+            <div class="section-title">📌 متابعة حالة طلباتي (متزامن لحظياً)</div>
             <div id="userOrdersList"><p style="color: #aaa; text-align: center;">لا توجد طلبات نشطة حالياً.</p></div>
         </div>
 
-        <!-- الأقسام -->
+        <!-- 1. خدمات فودافون -->
         <button class="category-btn" onclick="toggleCategory('vodaCategory')"><span>خدمات فودافون 💙✨</span> <span>▼</span></button>
         <div class="category-content" id="vodaCategory">
             <div class="service-item"><div><strong>سحب بيانات فودافون</strong> - 60 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('سحب بيانات فودافون', 60)">طلب</button></div>
@@ -215,29 +227,115 @@
             <div class="service-item"><div><strong>بحث قومي فودافون</strong> - 80 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بحث قومي فودافون', 80)">طلب</button></div>
         </div>
 
+        <!-- 2. خدمات اتصالات -->
         <button class="category-btn" onclick="toggleCategory('etiCategory')"><span>خدمات اتصالات 💙✨</span> <span>▼</span></button>
         <div class="category-content" id="etiCategory">
             <div class="service-item"><div><strong>سحب بيانات اتصالات</strong> - 50 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('سحب بيانات اتصالات', 50)">طلب</button></div>
             <div class="service-item"><div><strong>بحث قومي اتصالات 🔍</strong> - 0 ج.م <span class="badge-closed">مغلق ❌</span></div><button class="btn-disabled" disabled>مغلق</button></div>
+            <div class="service-item"><div><strong>بيانات مميز اتصالات 💎</strong> - 0 ج.م <span class="badge-closed">مغلق ❌</span></div><button class="btn-disabled" disabled>مغلق</button></div>
         </div>
 
-        <button class="category-btn" style="background: rgba(142,68,173,0.35);" onclick="toggleCategory('reshqCategory')"><span>خدمات الرشق 🎵 💙✨</span> <span>▼</span></button>
+        <!-- 3. خدمات اورنج -->
+        <button class="category-btn" onclick="toggleCategory('orangeCategory')"><span>خدمات اورنج 💙✨</span> <span>▼</span></button>
+        <div class="category-content" id="orangeCategory">
+            <div class="service-item"><div><strong>سحب بيانات اورنج</strong> - 30 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('سحب بيانات اورنج', 30)">طلب</button></div>
+        </div>
+
+        <!-- 4. خدمات وي -->
+        <button class="category-btn" onclick="toggleCategory('weCategory')"><span>خدمات وي 💙✨</span> <span>▼</span></button>
+        <div class="category-content" id="weCategory">
+            <div class="service-item"><div><strong>بطاقه من الرقم 🪪</strong> - 60 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بطاقه من الرقم 🪪', 60)">طلب</button></div>
+            <div class="service-item"><div><strong>بحث ارقام وي 🧐</strong> - 60 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بحث ارقام وي 🧐', 60)">طلب</button></div>
+            <div class="service-item"><div><strong>بطاقه من رقم ارضي ☎️</strong> - 60 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بطاقه من رقم ارضي ☎️', 60)">طلب</button></div>
+        </div>
+
+        <!-- 5. خدمات تموين -->
+        <button class="category-btn" onclick="toggleCategory('tamweenCategory')"><span>خدمات تموين 💙✨</span> <span>▼</span></button>
+        <div class="category-content" id="tamweenCategory">
+            <div class="service-item"><div><strong>سحب تموين 🌾</strong> - 50 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('سحب تموين 🌾', 50)">طلب</button></div>
+        </div>
+
+        <!-- 6. خدمات سجل مدني -->
+        <button class="category-btn" onclick="toggleCategory('civilCategory')"><span>خدمات سجل مدني 💙✨</span> <span>▼</span></button>
+        <div class="category-content" id="civilCategory">
+            <div class="service-item"><div><strong>قيد عادي</strong> - 470 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('قيد عادي', 470)">طلب</button></div>
+            <div class="service-item"><div><strong>مفصل</strong> - 670 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('مفصل', 670)">طلب</button></div>
+            <div class="service-item"><div><strong>اسكرين بطاقة</strong> - 720 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('اسكرين بطاقة', 720)">طلب</button></div>
+            <div class="service-item"><div><strong>شهادة وفاة</strong> - 620 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شهادة وفاة', 620)">طلب</button></div>
+            <div class="service-item"><div><strong>شهادة ميلاد</strong> - 370 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شهادة ميلاد', 370)">طلب</button></div>
+            <div class="service-item"><div><strong>شهادة جواز / طلاق</strong> - 370 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شهادة جواز / طلاق', 370)">طلب</button></div>
+        </div>
+
+        <div class="fancy-divider"></div>
+
+        <!-- 7. خدمات الرشق -->
+        <button class="category-btn" style="background: linear-gradient(135deg, rgba(142,68,173,0.6), rgba(52,152,219,0.6));" onclick="toggleCategory('reshqCategory')"><span>خدمات الرشق 🎵 💙✨</span> <span>▼</span></button>
         <div class="category-content" id="reshqCategory">
-            <div class="service-item"><div><strong>رشق متابعين تيك توك (1k) 🎵🚀</strong> - 150 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق متابعين تيك توك (1k)', 150)">طلب</button></div>
-            <div class="service-item"><div><strong>رشق مشاهدات تيك توك {1k}👁️</strong> - 50 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق مشاهدات تيك توك {1k}', 50)">طلب</button></div>
+            <div class="service-item"><div><strong>رشق متابعين تيك توك (1k) 🎵🚀</strong> - 150 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق متابعين تيك توك (1k) 🎵🚀', 150)">طلب</button></div>
+            <div class="service-item"><div><strong>رشق متابعين انستجرام [1k] ثابت ➕</strong> - 200 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق متابعين انستجرام [1k] ثابت ➕', 200)">طلب</button></div>
+            <div class="service-item"><div><strong>رشق مشاهدات تيك توك {1k}👁️</strong> - 50 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق مشاهدات تيك توك {1k}👁️', 50)">طلب</button></div>
+            <div class="service-item"><div><strong>اكسبلور تيك توك [1k] 🦈</strong> - 130 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('اكسبلور تيك توك [1k] 🦈', 130)">طلب</button></div>
+            <div class="service-item"><div><strong>لايكات تيك توك أو انستجرام [1k] ♥️</strong> - 100 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('لايكات تيك توك أو انستجرام [1k] ♥️', 100)">طلب</button></div>
+            <div class="service-item"><div><strong>رشق متابعين قنوات واتساب {5k} 👥</strong> - 200 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق متابعين قنوات واتساب {5k} 👥', 200)">طلب</button></div>
+            <div class="service-item"><div><strong>تعليقات تيك توك 500 تعليق 💬</strong> - 120 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('تعليقات تيك توك 500 تعليق 💬', 120)">طلب</button></div>
+            <div class="service-item"><div><strong>رشق جروبات / قنوات تليجرام [1k] 🛰️</strong> - 200 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق جروبات / قنوات تليجرام [1k] 🛰️', 200)">طلب</button></div>
+            <div class="service-item"><div><strong>رشق متابعين + ليكات فيسبوك ((1k)) 🤩</strong> - 100 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رشق متابعين + ليكات فيسبوك ((1k)) 🤩', 100)">طلب</button></div>
+            <div class="service-item"><div><strong>250 متابع يوتيوب 💥</strong> - 500 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('250 متابع يوتيوب 💥', 500)">طلب</button></div>
         </div>
 
-        <!-- مكان خدمات الأدمن المضافة -->
+        <div class="chill-divider"></div>
+
+        <!-- 8. خدمات واتساب -->
+        <button class="category-btn" style="background: linear-gradient(135deg, rgba(0,176,155,0.6), rgba(37,211,102,0.6));" onclick="toggleCategory('whatsappCategory')"><span>خدمات واتساب 🪀</span> <span>▼</span></button>
+        <div class="category-content" id="whatsappCategory">
+            <div class="service-item"><div><strong>حظر ارقام الواتساب 🚫</strong> - 100 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('حظر ارقام الواتساب 🚫', 100)">طلب</button></div>
+            <div class="service-item"><div><strong>فك حظر ارقام الواتساب ✔️</strong> - 150 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('فك حظر ارقام الواتساب ✔️', 150)">طلب</button></div>
+            <div class="service-item"><div><strong>بوت الاستوري 👀</strong> - 20 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بوت الاستوري 👀', 20)">طلب</button></div>
+            <div class="service-item"><div><strong>بوت الكراش 😝</strong> - 40 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('بوت الكراش 😝', 40)">طلب</button></div>
+        </div>
+
+        <div class="payments-divider"></div>
+
+        <!-- 9. قسم المدفوعات والشحن -->
+        <button class="category-btn" style="background: linear-gradient(135deg, rgba(241,39,17,0.6), rgba(0,114,255,0.6));" onclick="toggleCategory('paymentsCategory')"><span>قسم المدفوعات (شحن الألعاب والباقات) 💳✨</span> <span>▼</span></button>
+        <div class="category-content" id="paymentsCategory">
+            <div class="service-item"><div><strong>شحن جواهر فري فاير (100 جوهرة) 🎮🔥</strong> - 70 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شحن جواهر فري فاير (100 جوهرة) 🎮🔥', 70)">طلب</button></div>
+            <div class="service-item"><div><strong>شحن بويا باس (فري فاير) 🎫🔥</strong> - 70 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شحن بويا باس (فري فاير) 🎫🔥', 70)">طلب</button></div>
+            <div class="service-item"><div><strong>شحن شدات ببجي (60 شدة) 🎯</strong> - 70 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شحن شدات ببجي (60 شدة) 🎯', 70)">طلب</button></div>
+            <div class="service-item"><div><strong>تجديد باقة النت الأرضي (WE) 🌐</strong> - 330 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('تجديد باقة النت الأرضي (WE) 🌐', 330)">طلب</button></div>
+            <div class="service-item"><div><strong>شحن باقة الموبايل (ميجابايتس/تكت) 📱</strong> - 35 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('شحن باقة الموبايل (ميجابايتس/تكت) 📱', 35)">طلب</button></div>
+            <div class="service-item"><div><strong>عرض وي (10 جيجا + 1000 دقيقة لكل الشبكات) 🎁🌐</strong> - 220 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('عرض وي (10 جيجا + 1000 دقيقة لكل الشبكات) 🎁🌐', 220)">طلب</button></div>
+        </div>
+
+        <div class="payments-divider"></div>
+
+        <!-- 10. الأرقام الوهمية -->
+        <button class="category-btn" style="background: linear-gradient(135deg, rgba(37,211,102,0.6), rgba(0,136,204,0.6));" onclick="toggleCategory('fakeNumbersCategory')"><span>قسم الأرقام الوهمية واتساب / تليجرام 🔢</span> <span>▼</span></button>
+        <div class="category-content" id="fakeNumbersCategory">
+            <div class="service-item"><div><strong>رقم وهمي واتساب (تفعيل مفعل) 🪀</strong> - 60 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رقم وهمي واتساب (تفعيل مفعل) 🪀', 60)">طلب</button></div>
+            <div class="service-item"><div><strong>رقم وهمي تليجرام 🛰️</strong> - 60 ج.م <span class="badge-open">متاح ✅</span></div><button class="btn-order" onclick="openOrderModal('رقم وهمي تليجرام 🛰️', 60)">طلب</button></div>
+        </div>
+
+        <!-- مكان ظهور الخدمات المضافة من الأدمن -->
         <div id="dynamicCategoriesContainer"></div>
 
-        <div class="admin-trigger" onclick="accessAdminPanel()">⚙️ إعدادات لوحة تحكم الأدمن 🔐</div>
+        <div class="admin-trigger" onclick="accessAdminPanel()">⚙️ إعدادات لوحة تحكم الأدمن (قاعدة البيانات) 🔐</div>
         
         <div class="admin-panel" id="adminPanel">
-            <h3>🔑 لوحة تحكم الأدمن</h3>
+            <h3>🔑 لوحة تحكم الأدمن السحابية</h3>
             <hr style="margin: 10px 0; border-color: rgba(255,255,255,0.1);">
-            <button class="admin-add-btn" onclick="openAddServiceModal()">➕ إضافة خدمة جديدة وسعرها</button>
-            <h4 style="color: #58a6ff;">📋 الطلبات الواردة:</h4>
-            <div id="adminOrdersList"><p style="color: #aaa;">لا توجد طلبات جديدة.</p></div>
+            <button class="admin-add-btn" onclick="openAddServiceModal()">➕ إضافة خدمة جديدة وسعرها للمتجر</button>
+            <h4 style="color: #58a6ff; margin-bottom: 8px;">📋 إدارة طلبات العملاء:</h4>
+            <div id="adminOrdersList"><p style="color: #aaa;">لا توجد طلبات مسجلة بعد.</p></div>
+        </div>
+
+        <div class="social-section">
+            <h3 style="color: #58a6ff; margin-bottom: 5px;">تابعنا 🤗</h3>
+            <p style="font-size: 0.9rem; color: #aaa; margin-bottom: 10px;">انضم لقنواتنا الرسمية ليصلك كل جديد وعروض حصرية:</p>
+            <div class="social-buttons">
+                <a href="https://whatsapp.com/channel/0029VbDdvIh7NoZzhDicB51J" target="_blank" class="social-btn social-whatsapp"><span>قناة الواتساب</span> 📢</a>
+                <a href="https://t.me/SASA_ilmosebaAi" target="_blank" class="social-btn social-telegram"><span>قناة التليجرام</span> 👾</a>
+            </div>
         </div>
     </div>
 
@@ -245,13 +343,13 @@
     <div class="modal" id="orderModal">
         <div class="modal-box">
             <h3 id="modalServiceName"></h3>
-            <p style="color: #e50914; margin-bottom: 10px; font-weight: bold;">المبلغ المطلوب: <span id="modalServicePrice"></span> ج.م</p>
+            <p style="color: #e50914; margin-bottom: 10px; font-weight: bold; font-size: 1.1rem;">المبلغ المطلوب: <span id="modalServicePrice"></span> ج.م</p>
             <p style="margin-bottom: 10px; font-size: 0.9rem; color: #aaa;">تحويل فودافون كاش على الرقم: <strong style="color:#2ecc71;">01227252115</strong></p>
             <form onsubmit="submitOrder(event)">
                 <input type="text" id="custName" placeholder="اسمك بالكامل" required>
-                <input type="tel" id="custPhone" placeholder="رقم الواتساب" required>
-                <input type="text" id="custTarget" placeholder="الرقم المستهدف / اليوزر" required>
-                <button type="submit" class="btn-order" style="width: 100%; padding: 10px; background: #238636;">تأكيد الإرسال</button>
+                <input type="tel" id="custPhone" placeholder="رقم الواتساب الخاص بك" required>
+                <input type="text" id="custTarget" placeholder="الرقم المستهدف / يوزر الحساب / الID" required>
+                <button type="submit" class="btn-order" style="width: 100%; padding: 10px; background: #238636;">تأكيد وإرسال الطلب</button>
                 <button type="button" class="btn-order" style="width: 100%; padding: 10px; background: #21262d; margin-top: 6px;" onclick="closeOrderModal()">إلغاء</button>
             </form>
         </div>
@@ -285,6 +383,7 @@
         function accessAdminPanel() {
             const panel = document.getElementById('adminPanel');
             panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+            renderAdminOrders();
         }
 
         function openOrderModal(name, price) {
@@ -307,15 +406,18 @@
             localStorage.setItem('sasa_custom_services', JSON.stringify(customServices));
             renderCustomServices();
             closeAddServiceModal();
-            alert('تمت إضافة الخدمة بنجاح!');
+            alert('تمت إضافة الخدمة بنجاح للمتجر! 🎉');
         }
 
         function renderCustomServices() {
             const container = document.getElementById('dynamicCategoriesContainer');
-            if (!customServices.length) return;
-            let html = `<button class="category-btn" style="background: rgba(230,126,34,0.35);" onclick="toggleCategory('customCat')"><span>خدمات الأدمن المضافة 🌟</span> <span>▼</span></button><div class="category-content" id="customCat">`;
+            if (!customServices.length) {
+                container.innerHTML = '';
+                return;
+            }
+            let html = `<button class="category-btn" style="background: rgba(230,126,34,0.4);" onclick="toggleCategory('customCat')"><span>خدمات الأدمن المضافة 🌟</span> <span>▼</span></button><div class="category-content" id="customCat" style="display:block;">`;
             customServices.forEach(s => {
-                html += `<div class="service-item"><div><strong>${s.name}</strong> - ${s.price} ج.م</div><button class="btn-order" onclick="openOrderModal('${s.name}', ${s.price})">طلب</button></div>`;
+                html += `<div class="service-item"><div><strong>${s.name}</strong> - ${s.price} ج.م <span class="badge-open">جديد ✨</span></div><button class="btn-order" onclick="openOrderModal('${s.name}', ${s.price})">طلب</button></div>`;
             });
             html += `</div>`;
             container.innerHTML = html;
@@ -323,18 +425,50 @@
 
         function submitOrder(e) {
             e.preventDefault();
-            orders.push({ id: Date.now(), service: currentServiceName, price: currentServicePrice, status: 'قيد المراجعة ⏳' });
+            const name = document.getElementById('custName').value;
+            const phone = document.getElementById('custPhone').value;
+            const target = document.getElementById('custTarget').value;
+
+            orders.push({ 
+                id: Date.now(), 
+                service: currentServiceName, 
+                price: currentServicePrice, 
+                name: name,
+                phone: phone,
+                target: target,
+                status: 'قيد المراجعة ⏳' 
+            });
+
             localStorage.setItem('sasa_orders', JSON.stringify(orders));
             closeOrderModal();
             renderUserOrders();
-            alert('تم إرسال طلبك بنجاح!');
+            alert('تم إرسال طلبك بنجاح! 🚀');
         }
 
         function renderUserOrders() {
             const list = document.getElementById('userOrdersList');
-            if (!orders.length) return;
-            list.innerHTML = orders.map(o => `<div style="background:rgba(0,0,0,0.3); padding:8px; margin-bottom:5px; border-radius:6px;"><strong>${o.service}</strong> - ${o.price} ج.م (${o.status})</div>`).join('');
+            if (!orders.length) {
+                list.innerHTML = '<p style="color: #aaa; text-align: center;">لا توجد طلبات نشطة حالياً.</p>';
+                return;
+            }
+            list.innerHTML = orders.map(o => `<div style="background:rgba(0,0,0,0.4); padding:10px; margin-bottom:6px; border-radius:8px; border:1px solid rgba(255,255,255,0.1);"><strong>${o.service}</strong> - ${o.price} ج.م <br><span style="font-size:0.85rem; color:#f39c12;">الحالة: ${o.status}</span></div>`).join('');
             document.getElementById('totalOrdersCount').innerText = orders.length;
+        }
+
+        function renderAdminOrders() {
+            const list = document.getElementById('adminOrdersList');
+            if (!orders.length) {
+                list.innerHTML = '<p style="color: #aaa;">لا توجد طلبات مسجلة بعد.</p>';
+                return;
+            }
+            list.innerHTML = orders.map(o => `
+                <div style="background: rgba(0,0,0,0.5); padding: 10px; border-radius: 6px; margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                    <p><strong>الخدمة:</strong> ${o.service} (${o.price} ج.م)</p>
+                    <p><strong>العميل:</strong> ${o.name || 'غير معروف'} - ${o.phone || ''}</p>
+                    <p><strong>الهدف:</strong> ${o.target || ''}</p>
+                    <p><strong>الحالة:</strong> ${o.status}</p>
+                </div>
+            `).join('');
         }
 
         renderUserOrders();
